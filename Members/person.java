@@ -1,25 +1,40 @@
+package Members;
 public class person{
-    private String matricule;
-    private String first_name;
-    private String last_name;    
+    private String full_name;
+        
     private String role;
-    public person(String matricule,String last_name,String first_name,String role){
-        this.matricule=matricule;
-        this.last_name=last_name;
-        this.first_name=first_name;
+    private String passwrod;
+    public person(){
+        this.full_name=null;
+        this.passwrod=null;
+        this.role=null;
+    }
+
+    public person(String full_name,String role,String password){
+        this.passwrod=password;
+        
+        this.full_name=full_name;
         this.role=role;
     }
-    public String getmatricule(){
-        return matricule;
-    }
-    public String getlastname(){
-        return last_name;
-    }
-    public String getfirst_name(){
-        return first_name;
+    
+    public String getfull_name(){
+        return full_name;
     }
     public String role(){
         return role;
-    }     
+    }   
+    public void setfullname(String fname){
+        this.full_name=fname;
+    }  
+    
+    public void setrole(String role){
+        this.role=role;
+    }
+    public String getpassword(){
+        return passwrod;
+    }
+    public void setpassword(String password){
+        this.passwrod=password;
+    }
     
 }
