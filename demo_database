@@ -1,0 +1,33 @@
+Manager database :
++------+----------+-------+
+| code | password | name  |
++------+----------+-------+
+| ma1  | root     | admin |
++------+----------+-------+
+
+
+Student database :
++----+----------------+----------+--------------+
+| id | name           | password | matricule    |
++----+----------------+----------+--------------+
+|  2 | cherif mohamed | hdeo021s | 242432225503 |
++----+----------------+----------+--------------+
+
+
+Driver database:
++----+--------------+----------+-------+
+| id | name         | password | code  |
++----+--------------+----------+-------+
+|  1 | sabar moussa | kdk99kei | D0192 |
++----+--------------+----------+-------+
+
+
+Bus_lines database:
+CREATE TABLE bus_lines (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    start_point VARCHAR(100) NOT NULL,
+    end_point VARCHAR(100) NOT NULL
+);
+
+

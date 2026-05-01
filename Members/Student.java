@@ -1,14 +1,14 @@
 package Members;
-public class Student extends person{
-    String matricule;
-    public Student(){
-        super();
-        this.matricule=null;
+public class Student extends Person{
+    private String matricule;
+
+    public Student() {};
+    
+    public Student(String full_name,String password,String role,String matricule){
+        super(full_name, role, password);
+        this.matricule = matricule;
     }
-    public Student(String matricule,String full_name,String password){
-        super(full_name, "Student", password);
-        this.matricule=matricule;
-    } 
+
     public String getmatricule(){
         return matricule;
     }

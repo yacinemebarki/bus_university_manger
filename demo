@@ -1,0 +1,12 @@
+Drivers
+Managers
+Students
+bus_lines
+
+
+git pull
+
+git add .
+git commit -m "message"
+git push
+
