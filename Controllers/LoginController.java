@@ -2,7 +2,10 @@ package Controllers;
 
 import Views.Login_view;
 import Views.Manager_view;
+import Views.Student_view;
 import DBConnections.ManagerConnection;
+import DBConnections.StudentConnection;
+import DBConnections.DriverConnection;
 
 import java.sql.*;
 
@@ -45,7 +48,7 @@ public class LoginController {
                     ps.setString(1, name);
                     ps.setString(2, password);
 
-                    var rs = ps.executeQuery();
+                    ResultSet rs = ps.executeQuery();
 
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(loginView.frame, "Manager login successful");
@@ -66,11 +69,60 @@ public class LoginController {
                 break;
 
             case "Driver":
-                JOptionPane.showMessageDialog(loginView.frame, "Driver login (not implemented yet)");
+                String sqlDriver = "SELECT * FROM drivers WHERE name = ? AND password = ?";
+                try (Connection conn = DriverConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sqlDriver)) {
+
+                    ps.setString(1, name);
+                    ps.setString(2, password);
+
+                    ResultSet rs = ps.executeQuery();
+
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(loginView.frame, "Driver login successful");
+
+                        loginView.frame.setVisible(false); // close the login view
+                        new DriverController(new Views.Driver_view(), rs.getString("code")); // Open the driver view
+
+                    } else {
+                        JOptionPane.showMessageDialog(loginView.frame, "Invalid driver credentials");
+                        return ;
+                    }
+                    
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(loginView.frame, "Database error: " + e.getMessage());
+                    return;
+                }
+
                 break;
 
             case "Student":
-                JOptionPane.showMessageDialog(loginView.frame, "Student login (not implemented yet)");
+                String sqlStudent = "SELECT * FROM students WHERE name = ? AND password = ?";
+
+                try (Connection conn = StudentConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sqlStudent)) {
+
+                    ps.setString(1, name);
+                    ps.setString(2, password);
+
+                    ResultSet rs = ps.executeQuery();
+
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(loginView.frame, "Student login successful");
+
+                        loginView.frame.setVisible(false); // close the login view
+                        new StudentController(new Student_view()); // Open the student view
+
+                    } else {
+                        JOptionPane.showMessageDialog(loginView.frame, "Invalid student credentials");
+                        return ;
+                    }
+                    
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(loginView.frame, "Database error: " + e.getMessage());
+                    return;
+                }
                 break;
 
             default:

@@ -10,7 +10,7 @@ public class Student_view {
     public JFrame  frame=new JFrame("Line page");
     public JLabel title=new JLabel("Find Your Transport");
     
-    //search bar 
+    //search bar
     
     public JTextField searchField=new JTextField();
     public JButton searchBtn = new JButton("Search");

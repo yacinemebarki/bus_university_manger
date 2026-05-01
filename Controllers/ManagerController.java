@@ -69,7 +69,7 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(managerView.frame, "This student already exists");
         }
     }
     public void removeStudent() {
@@ -89,7 +89,7 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(managerView.frame, "Failed to remove student");
         }
     }
     
@@ -124,7 +124,7 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(managerView.frame, "This driver already exists");
         }
     }
     public void removeDriver() {
@@ -144,10 +144,9 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(managerView.frame, "Failed to remove driver");
         }
     }
-
 
     
     // LOGOUT ##########################

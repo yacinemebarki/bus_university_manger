@@ -2,7 +2,7 @@ package DBConnections;
 
 import java.sql.*;
 
-public class DriversConnection {
+public class DriverConnection {
 
     private static final String URL = "jdbc:mysql://localhost:3306/Drivers"; // Drivers is the name of the database
     private static final String USER = "root";
