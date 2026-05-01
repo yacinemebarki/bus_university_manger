@@ -31,7 +31,7 @@ public class LoginController {
 
         if (name.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(loginView.frame, "Please enter both name and password");
-            return;
+            return ;
         }
 
         switch (role) {
@@ -55,7 +55,7 @@ public class LoginController {
 
                     } else {
                         JOptionPane.showMessageDialog(loginView.frame, "Invalid manager credentials");
-                        return;
+                        return ;
                     }
                     
                 } catch (SQLException e) {

@@ -1,6 +1,6 @@
 package Members;
 
-public class  Person {
+public class Person {
     private String full_name;
     private String role;
     private String password;

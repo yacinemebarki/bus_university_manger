@@ -26,8 +26,8 @@ public class Manager_view {
     public JButton addDriverBtn = new JButton("Add Driver");
     public JButton removeDriverBtn = new JButton("Remove Driver");
 
-    public JButton addLineBtn = new JButton("Add Line");
-    public JButton removeLineBtn = new JButton("Remove Line");
+    JButton linesDashboardBtn = new JButton("Lines Dashboard");
+
 
     public JButton logoutBtn = new JButton("Logout");
 
@@ -59,8 +59,7 @@ public class Manager_view {
         addDriverBtn.setBounds(50, 220, 200, 30);
         removeDriverBtn.setBounds(300, 220, 200, 30);
 
-        addLineBtn.setBounds(50, 270, 200, 30);
-        removeLineBtn.setBounds(300, 270, 200, 30);
+        linesDashboardBtn.setBounds(50, 270, 450, 30);
 
         logoutBtn.setBounds(200, 330, 150, 30);
 
@@ -82,8 +81,8 @@ public class Manager_view {
         frame.add(addDriverBtn);
         frame.add(removeDriverBtn);
 
-        frame.add(addLineBtn);
-        frame.add(removeLineBtn);
+        frame.add(linesDashboardBtn);
+        
 
         frame.add(logoutBtn);
 

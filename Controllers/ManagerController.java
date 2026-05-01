@@ -1,8 +1,6 @@
 package Controllers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 import DBConnections.DriversConnection;
 import DBConnections.StudentConnection;
@@ -36,9 +34,6 @@ public class ManagerController {
 
         managerView.addDriverBtn.addActionListener(e -> addDriver());
         managerView.removeDriverBtn.addActionListener(e -> removeDriver());
-
-        managerView.addLineBtn.addActionListener(e -> addLine());
-        managerView.removeLineBtn.addActionListener(e -> removeLine());
 
         managerView.logoutBtn.addActionListener(e -> logout());
     }
@@ -154,15 +149,7 @@ public class ManagerController {
     }
 
 
-    // ADD and REMOVE LINE ##########################
-    public void addLine() {
-       // Logic to add a line
-    }
-    public void removeLine() {
-       // Logic to remove a line
-    }
-
-
+    
     // LOGOUT ##########################
     public void logout() {
         managerView.frame.setVisible(false);
