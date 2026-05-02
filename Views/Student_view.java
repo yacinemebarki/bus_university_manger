@@ -20,7 +20,7 @@ public class Student_view {
     
     public JLabel title_bus=new JLabel("all lines");
     
-    public String[] columns={"Line Name","Matricule","Depart time","Direction","Status"};
+    public String[] columns={"Start","Matricule","Depart time","Direction","Status"};
     public DefaultTableModel lines=new DefaultTableModel(columns,0);
     public JTable table=new JTable(lines);
     public JScrollPane scroll=new JScrollPane(table);
@@ -44,7 +44,6 @@ public class Student_view {
         //search bar costumization
         
         searchField.setBounds(50, 50, 200, 30);
-        searchField.setText("search..");
         searchField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         searchField.setFont(new Font("Arial", Font.PLAIN, 14));
         searchField.setBackground(Color.WHITE);

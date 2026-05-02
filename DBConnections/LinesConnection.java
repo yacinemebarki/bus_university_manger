@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class LinesConnection {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/bus_lines"; // so put 'bus_lines' is the name of the database
+    private static final String URL = "jdbc:mysql://localhost:3306/LinesDB"; // so put 'LinesDB' is the name of the database
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 

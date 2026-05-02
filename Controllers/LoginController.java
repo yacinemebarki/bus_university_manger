@@ -5,7 +5,7 @@ import Views.Manager_view;
 import Views.Student_view;
 import DBConnections.ManagerConnection;
 import DBConnections.StudentConnection;
-import DBConnections.DriverConnection;
+import DBConnections.DriversConnection;
 
 import java.sql.*;
 
@@ -70,7 +70,7 @@ public class LoginController {
 
             case "Driver":
                 String sqlDriver = "SELECT * FROM drivers WHERE name = ? AND password = ?";
-                try (Connection conn = DriverConnection.getConnection();
+                try (Connection conn = DriversConnection.getConnection();
                     PreparedStatement ps = conn.prepareStatement(sqlDriver)) {
 
                     ps.setString(1, name);

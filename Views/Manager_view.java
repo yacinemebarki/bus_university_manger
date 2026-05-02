@@ -26,7 +26,7 @@ public class Manager_view {
     public JButton addDriverBtn = new JButton("Add Driver");
     public JButton removeDriverBtn = new JButton("Remove Driver");
 
-    JButton linesDashboardBtn = new JButton("Lines Dashboard");
+    public JButton linesDashboardBtn = new JButton("Lines Dashboard");
 
 
     public JButton logoutBtn = new JButton("Logout");
@@ -85,7 +85,7 @@ public class Manager_view {
         
 
         frame.add(logoutBtn);
-
+        
         frame.setVisible(true);
     }
 }

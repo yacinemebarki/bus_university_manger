@@ -12,6 +12,7 @@ import Members.Driver;
 
 import Models.AllModels;
 import Models.AllModels;
+import Views.LineDashboard_view;
 import Views.Manager_view;
 
 import javax.swing.JOptionPane;
@@ -36,6 +37,8 @@ public class ManagerController {
         managerView.removeDriverBtn.addActionListener(e -> removeDriver());
 
         managerView.logoutBtn.addActionListener(e -> logout());
+
+        managerView.linesDashboardBtn.addActionListener(e -> lineDashboard());
     }
 
 
@@ -69,7 +72,7 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(managerView.frame, "This student already exists");
+            e.printStackTrace();
         }
     }
     public void removeStudent() {
@@ -89,7 +92,7 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(managerView.frame, "Failed to remove student");
+            e.printStackTrace();
         }
     }
     
@@ -124,7 +127,7 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(managerView.frame, "This driver already exists");
+            e.printStackTrace();
         }
     }
     public void removeDriver() {
@@ -144,11 +147,16 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(managerView.frame, "Failed to remove driver");
+            e.printStackTrace();
         }
     }
 
-    
+
+    // Lines and Buses management can be added here in the future
+    public void lineDashboard() {
+        new LineDashboard_view();
+    }
+
     // LOGOUT ##########################
     public void logout() {
         managerView.frame.setVisible(false);
