@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Student_view {
     
-    public JFrame  frame=new JFrame("Line page");
+    public JFrame  frame=new JFrame("traget page");
     public JLabel title=new JLabel("Find Your Transport");
     
     //search bar
@@ -18,7 +18,7 @@ public class Student_view {
 
     //line fields
     
-    public JLabel title_bus=new JLabel("all lines");
+    public JLabel title_bus=new JLabel("all traget");
     
     public String[] columns={"Start","Matricule","Depart time","Direction","Status"};
     public DefaultTableModel lines=new DefaultTableModel(columns,0);
