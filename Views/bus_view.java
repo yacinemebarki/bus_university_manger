@@ -31,7 +31,7 @@ public class bus_view {
     public JTextField capacityField = new JTextField();
 
     // TABLE
-    public String[] columns={"Matricule", "Work Status", "Problem Status"};
+    public String[] columns={"Matricule","capacity" ,"Work Status", "Problem Status"};
     public DefaultTableModel lines=new DefaultTableModel(columns, 0);
     public JTable table = new JTable(lines) {
         @Override
@@ -42,7 +42,7 @@ public class bus_view {
     public JScrollPane scroll=new JScrollPane(table);
 
 
-    public String[] searchOptions={"By Matricule","By Work Status","By Problem Status"};
+    public String[] searchOptions={"By Matricule","By Work Status","By Problem Status","By Capacity"};
 
     public JComboBox<String> searchTypeCombo=new JComboBox<>(searchOptions);
 
@@ -118,20 +118,8 @@ public class bus_view {
         contentPanel.add(statusBtn);
 
         contentPanel.add(scroll);
-
-
-        frame.add(menu,BorderLayout.WEST);
-        frame.add(contentPanel,BorderLayout.CENTER);
-
-        
-
-        contentPanel.add(workStatusCombo);
-        contentPanel.add(problemStatusCombo);
-        contentPanel.add(searchTypeCombo);
-        contentPanel.add(addBusBtn);
-        contentPanel.add(removeBusBtn);
-        contentPanel.add(searchBtn);
-        contentPanel.add(statusBtn);
+        contentPanel.add(capacityLabel);
+        contentPanel.add(capacityField);
 
         frame.add(menu,BorderLayout.WEST);
         frame.add(contentPanel,BorderLayout.CENTER);

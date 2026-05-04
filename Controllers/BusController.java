@@ -30,7 +30,12 @@ public class BusController {
             else if(type.equals("By Problem Status")){
                 String problem=(String) view.problemStatusCombo.getSelectedItem();
                     searchByProblem(problem);
-            }       
+            }   
+            else if(type.equals("By Capacity")){
+                String cap=(String) view.capacityField.getText();
+                int capint=Integer.parseInt(cap);
+                searchByCapacity(capint);
+            }
         });
         view.addBusBtn.addActionListener(e->addBus());
         view.removeBusBtn.addActionListener(e->delete());
@@ -39,7 +44,7 @@ public class BusController {
         view.menu.lineBtn.addActionListener(e->goToLine());
     }
     public boolean searchByMatricule(String matricule){
-        String sql="SELECT work_status,problem_status FROM buses WHERE matricule=?";
+        String sql="SELECT capacity,work_status,problem_status FROM buses WHERE matricule=?";
         try{
             Connection con=BusConnection.getConnection();
             PreparedStatement ps=con.prepareStatement(sql);
@@ -47,6 +52,8 @@ public class BusController {
                 JOptionPane.showMessageDialog(view.frame, "the matricule must have 10 digits");
                 return false;
             }
+            
+            
             ps.setString(1, matricule);
             boolean found=false;
             ResultSet rs=ps.executeQuery();
@@ -55,7 +62,8 @@ public class BusController {
                 found=true;
                 String work_status=rs.getString("work_status");
                 String problem_status=rs.getString("problem_status");
-                view.lines.addRow(new Object[]{matricule,work_status,problem_status});
+                int cap=rs.getInt("capacity");
+                view.lines.addRow(new Object[]{matricule,cap,work_status,problem_status});
             }
             return found;
         }catch(SQLException e){
@@ -64,7 +72,7 @@ public class BusController {
         }
     }
     public void addBus(){
-        String sql="INSERT INTO buses (matricule, work_status, problem_status) VALUES (?, ?, ?)";
+        String sql="INSERT INTO buses (matricule, capacity,work_status, problem_status) VALUES (?, ?, ?, ?)";
         try{
             Connection con=BusConnection.getConnection();
             PreparedStatement ps=con.prepareStatement(sql);
@@ -75,11 +83,18 @@ public class BusController {
                 JOptionPane.showMessageDialog(view.frame, "the matricule must have 10 digits");
                 return;
             }
+            String cap=view.capacityField.getText();
+            if(cap.isEmpty()){
+                JOptionPane.showMessageDialog(view.frame, "you must enter capacity");
+                return;
+            }
+            int capint=Integer.parseInt(cap);
             boolean found=searchByMatricule(matricule);
             if(!found){
                 ps.setString(1,matricule);
-                ps.setString(2, work_status);
-                ps.setString(3,problem_status);
+                ps.setInt(2, capint);
+                ps.setString(3, work_status);
+                ps.setString(4,problem_status);
                 int r=ps.executeUpdate();
                 if (r > 0) {
                     JOptionPane.showMessageDialog(view.frame, "Bus added successfully");
@@ -109,7 +124,8 @@ public class BusController {
                 String matricule=rs.getString("matricule");
                 String work_status=rs.getString("work_status");
                 String problem_status=rs.getString("problem_status");
-                view.lines.addRow(new Object[]{matricule,work_status,problem_status});        
+                int cap=rs.getInt("capacity");
+                view.lines.addRow(new Object[]{matricule,cap,work_status,problem_status});        
             }
             if(!found){
                 view.lines.addRow(new Object[]{"Nothing found","",""});
@@ -120,7 +136,7 @@ public class BusController {
         }
     }
     public boolean searchByProblem(String problem_status){
-        String sql="SELECT matricule,work_status FROM buses WHERE problem_status=?";
+        String sql="SELECT matricule,capacity,work_status FROM buses WHERE problem_status=?";
         try{
             Connection con=BusConnection.getConnection();
             PreparedStatement ps=con.prepareStatement(sql);
@@ -132,7 +148,11 @@ public class BusController {
                 found=true;
                 String work_status=rs.getString("work_status");
                 String matricule=rs.getString("matricule");
-                view.lines.addRow(new Object[]{matricule,work_status,problem_status});
+                int cap=rs.getInt("capacity");
+                view.lines.addRow(new Object[]{matricule,cap,work_status,problem_status});
+            }
+            if(!found){
+                view.lines.addRow(new Object[]{"Nothing found","",""});
             }
             return found;
         }catch(SQLException e){
@@ -141,7 +161,7 @@ public class BusController {
         }   
     }
     public boolean searchBywork(String work_status){
-        String sql="SELECT problem_status,matricule FROM buses WHERE work_status=?";
+        String sql="SELECT capacity,problem_status,matricule FROM buses WHERE work_status=?";
         try{
             Connection con=BusConnection.getConnection();
             PreparedStatement ps=con.prepareStatement(sql);
@@ -153,7 +173,36 @@ public class BusController {
                 found=true;
                 String matricule=rs.getString("matricule");
                 String problem_status=rs.getString("problem_status");
-                view.lines.addRow(new Object[]{matricule,work_status,problem_status});
+                int cap=rs.getInt("capacity");
+                view.lines.addRow(new Object[]{matricule,cap,work_status,problem_status});
+            }
+            if(!found){
+                view.lines.addRow(new Object[]{"Nothing found","",""});
+            }
+            return found;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }   
+    }
+    public boolean searchByCapacity(int capacity){
+        String sql="SELECT work_status,problem_status,matricule FROM buses WHERE capacity=?";
+        try{
+            Connection con=BusConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql);
+            ps.setInt(1, capacity);
+            boolean found=false;
+            ResultSet rs=ps.executeQuery();
+            view.lines.setRowCount(0);
+            while (rs.next()) {
+                found=true;
+                String matricule=rs.getString("matricule");
+                String problem_status=rs.getString("problem_status");
+                String work_status=rs.getString("work_status");
+                view.lines.addRow(new Object[]{matricule,capacity,work_status,problem_status});
+            }
+            if(!found){
+                view.lines.addRow(new Object[]{"Nothing found","",""});
             }
             return found;
         }catch(SQLException e){
@@ -171,6 +220,7 @@ public class BusController {
             int nb=ps.executeUpdate();
             if(nb>0){
                 JOptionPane.showMessageDialog(view.frame, "the bus was deleted");
+                buildtable();
             }
             else{
                 JOptionPane.showMessageDialog(view.frame, "not existing bus with this matricule");
