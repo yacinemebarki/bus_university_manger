@@ -9,6 +9,6 @@ import Models.AllModels;
 public class Main {
     public static void main(String[] args) {
 
-        new BusController(new bus_view());
+        new ManagerController(new AllModels<>(), new Manager_view());
     }
 }

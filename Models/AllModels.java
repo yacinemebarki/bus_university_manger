@@ -4,6 +4,8 @@ import Members.Manager;
 import Members.Person;
 import Members.Student;
 import Members.Driver;
+import Members.Line;
+
 import java.sql.*;
 
 public class AllModels<T extends Person> {

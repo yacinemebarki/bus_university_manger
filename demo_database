@@ -30,11 +30,24 @@ Bus database:
 +----+----------+-----------+-------------+----------------+
 
 Line Dashboard:
-+----+-----------+--------+------------+-------------+-----------+-------------+-----------+
-| id | line_code | name   | start_time | start_point | end_point | distance_km | bus_count |
-+----+-----------+--------+------------+-------------+-----------+-------------+-----------+
-|  1 | L1        | Line 1 | 08:00:00   | USTHB       | Arbaa     |          50 |         3 |
-+----+-----------+--------+------------+-------------+-----------+-------------+-----------+
++----+-----------+-----------+-------------+-------------+
+| id | line_code | name      | destination | distance_km |
++----+-----------+-----------+-------------+-------------+
+|  1 | L1        | USTHB-Ar  | ARBAA       |          35 |
+|  2 | L2        | HB-Dargna | dargna      |          35 |
++----+-----------+-----------+-------------+-------------+
+
+
+line_schedule:
+CREATE TABLE line_schedule (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    line_id INT,
+    start_time TIME,
+    bus_id INT,
+
+    FOREIGN KEY (line_id) REFERENCES lines(id),
+    FOREIGN KEY (bus_id) REFERENCES buses(id)
+);
 
 
 

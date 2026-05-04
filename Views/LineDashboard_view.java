@@ -6,129 +6,118 @@ import java.awt.*;
 
 public class LineDashboard_view {
 
-    public JFrame frame = new JFrame("Line Dashboard");
+    public JFrame frame = new JFrame("Lines Dashboard");
 
     // 🔹 INPUT FIELDS
-    JLabel codeLabel = new JLabel("Line Code:");
     public JTextField codeField = new JTextField();
-
-    JLabel nameLabel = new JLabel("Name:");
     public JTextField nameField = new JTextField();
-
-    JLabel timeLabel = new JLabel("Start Time:");
-    public JTextField timeField = new JTextField();
-
-    JLabel startLabel = new JLabel("Start Point:");
-    public JTextField startField = new JTextField();
-
-    JLabel endLabel = new JLabel("End Point:");
-    public JTextField endField = new JTextField();
-
-    JLabel distLabel = new JLabel("Distance (km):");
-    public JTextField distField = new JTextField();
-
-    JLabel busCountLabel = new JLabel("Bus Count:");
-    public JTextField busCountField = new JTextField();
+    public JTextField destinationField = new JTextField();
+    public JTextField distanceField = new JTextField();
 
     // 🔹 SEARCH
-    JLabel searchLabel = new JLabel("Search (Start/End):");
     public JTextField searchField = new JTextField();
     public JButton searchBtn = new JButton("Search");
 
     // 🔹 BUTTONS
-    public JButton addBtn = new JButton("Add Line");
-    public JButton removeBtn = new JButton("Remove Line");
-    public JButton updateBtn = new JButton("Update Line");
-
-    // 🔹 TOTAL LINES
-    public JLabel totalLabel = new JLabel("Total Lines: 0");
+    public JButton addBtn = new JButton("Add");
+    public JButton updateBtn = new JButton("Update");
+    public JButton removeBtn = new JButton("Remove");
 
     // 🔹 TABLE
     public JTable table;
     public DefaultTableModel model;
 
+    // 🔹 TOTAL
+    public JLabel totalLabel = new JLabel("Total Lines: 0");
+
     public LineDashboard_view() {
 
-        frame.setSize(900, 520);
+        frame.setSize(850, 500);
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // ===== INPUTS =====
-        codeLabel.setBounds(20, 20, 100, 25);
-        codeField.setBounds(120, 20, 120, 25);
+        // ===== TITLE =====
+        JLabel title = new JLabel("Lines Management");
+        title.setBounds(320, 10, 250, 30);
+        title.setFont(new Font("Arial", Font.BOLD, 20));
+        frame.add(title);
 
-        nameLabel.setBounds(260, 20, 100, 25);
-        nameField.setBounds(320, 20, 120, 25);
+        // ===== INPUT FIELDS =====
+        addField("Code", codeField, 20, 50);
+        addField("Name", nameField, 220, 50);
 
-        timeLabel.setBounds(460, 20, 100, 25);
-        timeField.setBounds(540, 20, 100, 25);
-
-        startLabel.setBounds(20, 60, 100, 25);
-        startField.setBounds(120, 60, 120, 25);
-
-        endLabel.setBounds(260, 60, 100, 25);
-        endField.setBounds(320, 60, 120, 25);
-
-        distLabel.setBounds(460, 60, 100, 25);
-        distField.setBounds(560, 60, 80, 25);
-
-        busCountLabel.setBounds(660, 60, 100, 25);
-        busCountField.setBounds(760, 60, 80, 25);
-        updateBtn.setBounds(430, 100, 150, 30);
+        addField("Destination", destinationField, 420, 50);
+        addField("Distance", distanceField, 620, 50);
 
         // ===== BUTTONS =====
-        addBtn.setBounds(120, 100, 120, 30);
-        removeBtn.setBounds(260, 100, 150, 30);
+        addBtn.setBounds(220, 100, 100, 30);
+        updateBtn.setBounds(340, 100, 100, 30);
+        removeBtn.setBounds(460, 100, 100, 30);
+
+        frame.add(addBtn);
+        frame.add(updateBtn);
+        frame.add(removeBtn);
 
         // ===== SEARCH =====
-        searchLabel.setBounds(450, 100, 150, 25);
-        searchField.setBounds(600, 100, 150, 25);
-        searchBtn.setBounds(760, 100, 100, 30);
+        JLabel searchLabel = new JLabel("Search:");
+        searchLabel.setBounds(580, 100, 60, 25);
 
-        // ===== TOTAL =====
-        totalLabel.setBounds(20, 130, 200, 25);
-        totalLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        searchField.setBounds(640, 100, 120, 25);
+        searchBtn.setBounds(760, 100, 80, 25);
+
+        frame.add(searchLabel);
+        frame.add(searchField);
+        frame.add(searchBtn);
 
         // ===== TABLE =====
         String[] columns = {
-                "LineCode", "Name", "Start Time",
-                "Start Point", "End Point",
-                "Distance (km)", "Bus Count"
+                "Line Code", "Name", "Destination", "Distance (km)"
         };
 
         model = new DefaultTableModel(columns, 0);
         table = new JTable(model);
 
         JScrollPane scroll = new JScrollPane(table);
-        scroll.setBounds(20, 160, 850, 300);
-
-        // ===== ADD COMPONENTS =====
-        frame.add(codeLabel); frame.add(codeField);
-        frame.add(nameLabel); frame.add(nameField);
-        frame.add(timeLabel); frame.add(timeField);
-
-        frame.add(startLabel); frame.add(startField);
-        frame.add(endLabel); frame.add(endField);
-        frame.add(distLabel); frame.add(distField);
-        frame.add(busCountLabel); frame.add(busCountField);
-
-        frame.add(addBtn);
-        frame.add(removeBtn);
-        frame.add(updateBtn);
-
-        frame.add(searchLabel);
-        frame.add(searchField);
-        frame.add(searchBtn);
-
-        frame.add(totalLabel);
+        scroll.setBounds(20, 150, 800, 260);
         frame.add(scroll);
+
+        // ===== TOTAL =====
+        totalLabel.setBounds(20, 420, 200, 25);
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        frame.add(totalLabel);
+
+        // ===== CLICK ROW → FILL FIELDS =====
+        table.getSelectionModel().addListSelectionListener(e -> fillFields());
 
         frame.setVisible(true);
     }
 
-    // 🔥 Update total lines
-    public void updateTotalLines() {
+    // 🔹 Helper to create fields
+    private void addField(String label, JTextField field, int x, int y) {
+        JLabel l = new JLabel(label + ":");
+        l.setBounds(x, y, 80, 25);
+
+        field.setBounds(x + 80, y, 120, 25);
+
+        frame.add(l);
+        frame.add(field);
+    }
+
+    // 🔹 Fill inputs when row selected
+    private void fillFields() {
+        int row = table.getSelectedRow();
+
+        if (row != -1) {
+            codeField.setText(model.getValueAt(row, 0).toString());
+            nameField.setText(model.getValueAt(row, 1).toString());
+            destinationField.setText(model.getValueAt(row, 2).toString());
+            distanceField.setText(model.getValueAt(row, 3).toString());
+        }
+    }
+
+    // 🔹 Update total lines
+    public void updateTotal() {
         totalLabel.setText("Total Lines: " + model.getRowCount());
     }
 }

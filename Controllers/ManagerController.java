@@ -154,7 +154,7 @@ public class ManagerController {
 
     // Lines and Buses management can be added here in the future
     public void lineDashboard() {
-        new LineDashboard_view();
+        new LineDashboardController(new LineDashboard_view());
     }
 
     // LOGOUT ##########################
