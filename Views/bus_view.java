@@ -26,6 +26,9 @@ public class bus_view {
     public JButton removeBusBtn=new JButton("Remove Bus");
     public JButton searchBtn=new JButton("Search");
     public JButton statusBtn=new JButton("Change Status");
+    // CAPACITY
+    public JLabel capacityLabel = new JLabel("Capacity:");
+    public JTextField capacityField = new JTextField();
 
     // TABLE
     public String[] columns={"Matricule", "Work Status", "Problem Status"};
@@ -63,6 +66,9 @@ public class bus_view {
 
         workStatusCombo.setBounds(380, 60, 150, 25);
         problemStatusCombo.setBounds(550, 60, 150, 25);
+
+        capacityLabel.setBounds(720, 60, 80, 25);
+        capacityField.setBounds(800, 60, 70, 25);
 
         // ================= BUTTONS =================
         addBusBtn.setBounds(50, 110, 150, 30);
@@ -113,11 +119,22 @@ public class bus_view {
 
         contentPanel.add(scroll);
 
+
         frame.add(menu,BorderLayout.WEST);
         frame.add(contentPanel,BorderLayout.CENTER);
 
         
 
+        contentPanel.add(workStatusCombo);
+        contentPanel.add(problemStatusCombo);
+        contentPanel.add(searchTypeCombo);
+        contentPanel.add(addBusBtn);
+        contentPanel.add(removeBusBtn);
+        contentPanel.add(searchBtn);
+        contentPanel.add(statusBtn);
+
+        frame.add(menu,BorderLayout.WEST);
+        frame.add(contentPanel,BorderLayout.CENTER);
 
         frame.setVisible(true);
     }

@@ -29,7 +29,7 @@ public class Driver_view {
 
     public Driver_view() {
 
-        frame.setSize(500, 320);
+        frame.setSize(1200, 600);
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
