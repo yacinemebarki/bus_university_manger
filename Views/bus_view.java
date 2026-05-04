@@ -33,6 +33,10 @@ public class bus_view {
     public JTable table=new JTable(lines);
     public JScrollPane scroll=new JScrollPane(table);
 
+    public String[] searchOptions={"By Matricule","By Work Status","By Problem Status"};
+
+    public JComboBox<String> searchTypeCombo=new JComboBox<>(searchOptions);
+
     public bus_view() {
 
         frame.setSize(750, 550);
@@ -56,6 +60,8 @@ public class bus_view {
         removeBusBtn.setBounds(220, 110, 150, 30);
         searchBtn.setBounds(390, 110, 150, 30);
         statusBtn.setBounds(560, 110, 150, 30);
+        searchTypeCombo.setBounds(390,150,200,25);
+        
 
         // ================= TABLE =================
         scroll.setBounds(50, 170, 650, 300);
@@ -89,7 +95,7 @@ public class bus_view {
 
         frame.add(workStatusCombo);
         frame.add(problemStatusCombo);
-
+        frame.add(searchTypeCombo);
         frame.add(addBusBtn);
         frame.add(removeBusBtn);
         frame.add(searchBtn);
