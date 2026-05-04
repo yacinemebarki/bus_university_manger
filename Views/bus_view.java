@@ -30,8 +30,14 @@ public class bus_view {
     // TABLE
     public String[] columns={"Matricule", "Work Status", "Problem Status"};
     public DefaultTableModel lines=new DefaultTableModel(columns, 0);
-    public JTable table=new JTable(lines);
-    public JScrollPane scroll=new JScrollPane(table);
+    public JTable table = new JTable(lines) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    JScrollPane scroll=new JScrollPane(table);
+
 
     public String[] searchOptions={"By Matricule","By Work Status","By Problem Status"};
 

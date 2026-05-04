@@ -22,7 +22,12 @@ public class Student_view {
     
     public String[] columns={"Start","Matricule","Depart time","Direction","Status"};
     public DefaultTableModel lines=new DefaultTableModel(columns,0);
-    public JTable table=new JTable(lines);
+    public JTable table=new JTable(lines){
+        @Override
+        public boolean isCellEditable(int row, int column){
+            return false;
+        }
+    };
     public JScrollPane scroll=new JScrollPane(table);
 
 

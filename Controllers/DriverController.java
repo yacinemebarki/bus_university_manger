@@ -24,7 +24,7 @@ public class DriverController {
         // Load driver info (bus, time, destination)
         String sql = "SELECT matricule FROM buses WHERE driverId = ?";
 
-        try (Connection conn = DBConnections.BusesConnection.getConnection();
+        try (Connection conn = DBConnections.BusConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, driverCode);
@@ -52,7 +52,7 @@ public class DriverController {
             return ;
         }
 
-        try (Connection conn = DBConnections.BusesConnection.getConnection();
+        try (Connection conn = DBConnections.BusConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, driverCode);
@@ -69,7 +69,7 @@ public class DriverController {
     public void declareProblem() {
         String sql = "UPDATE buses SET problem_status = 'problem' WHERE driverId = ?";
 
-        try (Connection conn = DBConnections.BusesConnection.getConnection();
+        try (Connection conn = DBConnections.BusConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, driverCode);

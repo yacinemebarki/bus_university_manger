@@ -31,6 +31,7 @@ public class BusController {
         });
         view.addBusBtn.addActionListener(e->addBus());
         view.removeBusBtn.addActionListener(e->delete());
+        view.statusBtn.addActionListener(e->setbus());
     }
     public boolean searchByMatricule(String matricule){
         String sql="SELECT work_status,problem_status FROM buses WHERE matricule=?";
@@ -97,6 +98,7 @@ public class BusController {
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
             Boolean found=false;
+            view.lines.setRowCount(0);
             while (rs.next()) {
                 found=true;
                 String matricule=rs.getString("matricule");
@@ -113,7 +115,7 @@ public class BusController {
         }
     }
     public boolean searchByProblem(String problem_status){
-        String sql="SELECT work_status,problem_status FROM buses WHERE problem_status=?";
+        String sql="SELECT matricule,work_status FROM buses WHERE problem_status=?";
         try{
             Connection con=BusConnection.getConnection();
             PreparedStatement ps=con.prepareStatement(sql);
@@ -134,7 +136,7 @@ public class BusController {
         }   
     }
     public boolean searchBywork(String work_status){
-        String sql="SELECT work_status,problem_status FROM buses WHERE work_status=?";
+        String sql="SELECT problem_status,matricule FROM buses WHERE work_status=?";
         try{
             Connection con=BusConnection.getConnection();
             PreparedStatement ps=con.prepareStatement(sql);
@@ -168,6 +170,33 @@ public class BusController {
             else{
                 JOptionPane.showMessageDialog(view.frame, "not existing bus with this matricule");
             }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public void setbus(){
+        String sql="UPDATE buses SET work_status=?, problem_status=? WHERE matricule=?";
+        try{
+            Connection con=BusConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement(sql);
+            String matricule=view.matriculeField.getText();
+            String work=(String) view.workStatusCombo.getSelectedItem();
+            String problem=(String) view.problemStatusCombo.getSelectedItem();
+            if(matricule.equals("")){
+                JOptionPane.showMessageDialog(view.frame, "matricule is required (matriucle fiels is empty)");
+                return;
+            }
+            ps.setString(1, work);
+            ps.setString(2, problem);
+            ps.setString(3,matricule);
+            int nb=ps.executeUpdate();
+            if(nb>0){
+                JOptionPane.showMessageDialog(view.frame, "the bus stats was updated");
+                buildtable();
+            }
+            else{
+                JOptionPane.showMessageDialog(view.frame, "no existing bus with this matricule");        
+            }   
         }catch(SQLException e){
             e.printStackTrace();
         }
