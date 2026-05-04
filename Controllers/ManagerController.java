@@ -11,9 +11,9 @@ import Members.Student;
 import Members.Driver;
 
 import Models.AllModels;
-import Models.AllModels;
 import Views.LineDashboard_view;
 import Views.Manager_view;
+import Views.bus_view;
 
 import javax.swing.JOptionPane;
 
@@ -38,7 +38,10 @@ public class ManagerController {
 
         managerView.logoutBtn.addActionListener(e -> logout());
 
-        managerView.linesDashboardBtn.addActionListener(e -> lineDashboard());
+        managerView.menu.busBtn.addActionListener(e->goToBus());
+        managerView.menu.lineBtn.addActionListener(e->goToLine());
+
+    
     }
 
 
@@ -153,13 +156,27 @@ public class ManagerController {
 
 
     // Lines and Buses management can be added here in the future
+
     public void lineDashboard() {
         new LineDashboardController(new LineDashboard_view());
     }
 
+
     // LOGOUT ##########################
     public void logout() {
-        managerView.frame.setVisible(false);
         new LoginController(new Views.Login_view());
+        managerView.frame.setVisible(false);
+        
+    }
+    //to change pages
+    public void goToBus(){
+        new BusController(new bus_view());
+        managerView.frame.setVisible(false);
+        
+    }
+    public void goToLine(){
+        new LineDashboardController(new LineDashboard_view());
+        managerView.frame.setVisible(false);
+        
     }
 }

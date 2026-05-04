@@ -30,12 +30,12 @@ public class Student_view {
     };
     public JScrollPane scroll=new JScrollPane(table);
 
-
+   
     
     public Student_view(){
         //frame costumization
 
-        frame.setSize(600, 450);
+        frame.setSize(900, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);

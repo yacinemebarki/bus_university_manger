@@ -1,5 +1,8 @@
 package Controllers;
 import DBConnections.BusConnection;
+import Models.AllModels;
+import Views.LineDashboard_view;
+import Views.Manager_view;
 import Views.bus_view;
 import java.sql.*;
 
@@ -32,6 +35,8 @@ public class BusController {
         view.addBusBtn.addActionListener(e->addBus());
         view.removeBusBtn.addActionListener(e->delete());
         view.statusBtn.addActionListener(e->setbus());
+        view.menu.personBtn.addActionListener(e->goToperson());
+        view.menu.lineBtn.addActionListener(e->goToLine());
     }
     public boolean searchByMatricule(String matricule){
         String sql="SELECT work_status,problem_status FROM buses WHERE matricule=?";
@@ -200,5 +205,13 @@ public class BusController {
         }catch(SQLException e){
             e.printStackTrace();
         }
+    }
+    public void goToLine(){
+        new LineDashboardController(new LineDashboard_view());
+        view.frame.setVisible(false);
+    }
+    public void goToperson(){
+        new ManagerController(new AllModels<>(),new Manager_view());
+        view.frame.setVisible(false);
     }
 }

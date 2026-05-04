@@ -36,18 +36,21 @@ public class bus_view {
             return false;
         }
     };
-    JScrollPane scroll=new JScrollPane(table);
+    public JScrollPane scroll=new JScrollPane(table);
 
 
     public String[] searchOptions={"By Matricule","By Work Status","By Problem Status"};
 
     public JComboBox<String> searchTypeCombo=new JComboBox<>(searchOptions);
 
+    public JPanel contentPanel=new JPanel();
+    public LeftMenu menu=new LeftMenu();
+
     public bus_view() {
 
-        frame.setSize(750, 550);
+        frame.setSize(900, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
+        frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
 
         // ================= TITLE =================
@@ -94,20 +97,27 @@ public class bus_view {
         }
 
         // ================= ADD COMPONENTS =================
-        frame.add(title);
+        contentPanel.setLayout(null);
+        contentPanel.add(title);
 
-        frame.add(matriculeLabel);
-        frame.add(matriculeField);
+        contentPanel.add(matriculeLabel);
+        contentPanel.add(matriculeField);
 
-        frame.add(workStatusCombo);
-        frame.add(problemStatusCombo);
-        frame.add(searchTypeCombo);
-        frame.add(addBusBtn);
-        frame.add(removeBusBtn);
-        frame.add(searchBtn);
-        frame.add(statusBtn);
+        contentPanel.add(workStatusCombo);
+        contentPanel.add(problemStatusCombo);
+        contentPanel.add(searchTypeCombo);
+        contentPanel.add(addBusBtn);
+        contentPanel.add(removeBusBtn);
+        contentPanel.add(searchBtn);
+        contentPanel.add(statusBtn);
 
-        frame.add(scroll);
+        contentPanel.add(scroll);
+
+        frame.add(menu,BorderLayout.WEST);
+        frame.add(contentPanel,BorderLayout.CENTER);
+
+        
+
 
         frame.setVisible(true);
     }

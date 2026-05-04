@@ -2,11 +2,17 @@ package Controllers;
 
 import java.sql.*;
 
+
 import javax.swing.JOptionPane;
 
 import Models.LineModel;
 import Views.LineDashboard_view;
 import Members.Line;
+import Models.AllModels;
+import Views.LineDashboard_view;
+import Views.Manager_view;
+import Views.bus_view;
+
 
 public class LineDashboardController {
     LineDashboard_view lineDashboardView;
@@ -51,6 +57,8 @@ public class LineDashboardController {
         lineDashboardView.removeBtn.addActionListener(e -> removeLine());
         lineDashboardView.updateBtn.addActionListener(e -> updateLine());
         lineDashboardView.searchBtn.addActionListener(e -> searchLines());
+        lineDashboardView.menu.busBtn.addActionListener(e->goToBus());
+        lineDashboardView.menu.personBtn.addActionListener(e->goToperson());
     }
 
     // add
@@ -149,6 +157,7 @@ public class LineDashboardController {
     }
 
     // search
+
     public void searchLines() {
         String sql = "SELECT * FROM linesDB WHERE line_code LIKE ? OR destination LIKE ?";
 
@@ -184,5 +193,17 @@ public class LineDashboardController {
         lineDashboardView.nameField.setText("");
         lineDashboardView.destinationField.setText("");
         lineDashboardView.distanceField.setText("");
+
+    }
+    public void goToBus(){
+        new BusController(new bus_view());
+        lineDashboardView.frame.setVisible(false);
+        
+    }
+    public void goToperson(){
+        new ManagerController(new AllModels<>(), new Manager_view());
+        lineDashboardView.frame.setVisible(false);
+        
+
     }
 }

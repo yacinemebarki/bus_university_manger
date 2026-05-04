@@ -26,16 +26,17 @@ public class Manager_view {
     public JButton addDriverBtn = new JButton("Add Driver");
     public JButton removeDriverBtn = new JButton("Remove Driver");
 
-    public JButton linesDashboardBtn = new JButton("Lines Dashboard");
+    
 
 
     public JButton logoutBtn = new JButton("Logout");
+    public JPanel contentPanel = new JPanel();
+    public LeftMenu menu=new LeftMenu();
 
     public Manager_view() {
 
-        frame.setSize(600, 450);
+        frame.setSize(900, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
         frame.setLocationRelativeTo(null);
 
         // Title
@@ -59,32 +60,44 @@ public class Manager_view {
         addDriverBtn.setBounds(50, 220, 200, 30);
         removeDriverBtn.setBounds(300, 220, 200, 30);
 
-        linesDashboardBtn.setBounds(50, 270, 450, 30);
+        
 
         logoutBtn.setBounds(200, 330, 150, 30);
 
         // ================= ADD COMPONENTS =================
-        frame.add(title);
+        contentPanel.setLayout(null);
+        contentPanel.add(title);
 
-        frame.add(nameLabel);
-        frame.add(nameField);
+        contentPanel.add(nameLabel);
+        contentPanel.add(nameField);
 
-        frame.add(codeLabel);
-        frame.add(codeField);
+        contentPanel.add(codeLabel);
+        contentPanel.add(codeField);
 
-        frame.add(passLabel);
-        frame.add(passField);
+        contentPanel.add(passLabel);
+        contentPanel.add(passField);
 
-        frame.add(addStudentBtn);
-        frame.add(removeStudentBtn);
+        contentPanel.add(addStudentBtn);
+        contentPanel.add(removeStudentBtn);
 
-        frame.add(addDriverBtn);
-        frame.add(removeDriverBtn);
+        contentPanel.add(addDriverBtn);
+        contentPanel.add(removeDriverBtn);
 
-        frame.add(linesDashboardBtn);
+        
         
 
-        frame.add(logoutBtn);
+        contentPanel.add(logoutBtn);
+        
+        
+        
+
+        frame.setLayout(new BorderLayout());
+
+
+        frame.add(menu, BorderLayout.WEST);
+
+
+        frame.add(contentPanel, BorderLayout.CENTER);
         
         frame.setVisible(true);
     }
