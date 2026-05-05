@@ -2,7 +2,6 @@ package Views;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 
 import java.awt.*;
 
@@ -30,7 +29,7 @@ public class ProblemDashboard {
 
     public JButton searchBtn = new JButton("Search");
 
-    String[] columns = {"Line Name", "Driver ID", "Problem Type", "Date", "Time", "Message"};
+    String[] columns = {"Problem id","trip id", "line_name","Driver ID", "Problem Type", "Date", "Time", "Message"};
     public DefaultTableModel model = new DefaultTableModel(columns, 0);
     public JTable table = new JTable(model);
     public JScrollPane scroll = new JScrollPane(table);

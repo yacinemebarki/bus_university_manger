@@ -41,6 +41,20 @@ Line Dashboard:
 |  2 | L2        | HB-Dargna | dargna      |          35 |
 +----+-----------+-----------+-------------+-------------+
 
+Problem:
++--------------+-------------+------+-----+-------------------+-------------------+
+| Field        | Type        | Null | Key | Default           | Extra             |
++--------------+-------------+------+-----+-------------------+-------------------+
+| problem_id   | int         | NO   | PRI | NULL              | auto_increment    |
+| driver_id    | varchar(50) | NO   |     | NULL              |                   |
+| trip_id      | varchar(50) | NO   |     | NULL              |                   |
+| problem_date | date        | NO   |     | NULL              |                   |
+| problem_time | time        | NO   |     | NULL              |                   |
+| problem_type | varchar(50) | NO   |     | NULL              |                   |
+| message      | text        | YES  |     | NULL              |                   |
+| created_at   | timestamp   | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| Line_name    | varchar(30) | YES  |     | NULL              |                   |
++--------------+-------------+------+-----+-------------------+-------------------+
 
 line_schedule:
 CREATE TABLE line_schedule (
