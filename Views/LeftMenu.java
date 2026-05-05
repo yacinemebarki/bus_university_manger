@@ -8,20 +8,23 @@ public class LeftMenu extends JPanel{
     public JButton personBtn=new JButton("Person");
     public JButton lineBtn=new JButton("Line");
     public JButton busBtn=new JButton("Bus");
+    public JButton problemBtn=new JButton("Problem");
 
     public LeftMenu(){
 
-        setLayout(new GridLayout(3,1,10,10));
+        setLayout(new GridLayout(4,1,10,10));
         setPreferredSize(new Dimension(150, 0));
         setBackground(new Color(44, 62, 80));
 
         styleButton(personBtn);
         styleButton(lineBtn);
         styleButton(busBtn);
+        styleButton(problemBtn);
 
         add(personBtn);
         add(lineBtn);
         add(busBtn);
+        add(problemBtn);
     }
     private void styleButton(JButton btn) {
         btn.setFocusPainted(false);

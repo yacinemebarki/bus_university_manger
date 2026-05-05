@@ -158,7 +158,7 @@ public class BusController {
         }catch(SQLException e){
             e.printStackTrace();
             return false;
-        }
+        }   
     }
     public boolean searchBywork(String work_status){
         String sql="SELECT capacity,problem_status,matricule FROM buses WHERE work_status=?";

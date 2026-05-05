@@ -2,7 +2,7 @@ package DBConnections;
 import java.sql.*;
 
 public class BusConnection {
-    private static final String url="jdbc:mysql://localhost:3306/Buses";  // databse name is
+    private static final String url="jdbc:mysql://localhost:3306/bus_management";  // databse name is 
     private static final String root="root";
     private static final String password="root";
 

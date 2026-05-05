@@ -82,7 +82,7 @@ public class LoginController {
                         JOptionPane.showMessageDialog(loginView.frame, "Driver login successful");
 
                         loginView.frame.setVisible(false); // close the login view
-                        new DriverController(new Views.Driver_view()); // Open the driver view
+                        new DriverController(new Views.Driver_view(), rs.getString("code")); // Open the driver view
 
                     } else {
                         JOptionPane.showMessageDialog(loginView.frame, "Invalid driver credentials");

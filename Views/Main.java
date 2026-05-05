@@ -1,7 +1,6 @@
 package Views;
 
 import Controllers.BusController;
-import Controllers.DriverController;
 import Controllers.ManagerController;
 import Controllers.StudentController;
 import Controllers.LoginController;
@@ -10,6 +9,6 @@ import Models.AllModels;
 public class Main {
     public static void main(String[] args) {
 
-        new ManagerController(new AllModels<>(), new Manager_view());
+        new ProblemDashboard();
     }
 }

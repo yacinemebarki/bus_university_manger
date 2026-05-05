@@ -11,7 +11,7 @@ public class Driver_view {
     JLabel title = new JLabel("Driver Panel");
 
     // 🔒 READ-ONLY INFO
-    JLabel busLabel = new JLabel("Bus Matricule:");
+    JLabel busLabel = new JLabel("Bus Code:");
     public JLabel busValue = new JLabel("-");
 
     JLabel timeLabel = new JLabel("Start Time:");
@@ -29,7 +29,7 @@ public class Driver_view {
 
     public Driver_view() {
 
-        frame.setSize(500, 400);
+        frame.setSize(1200, 600);
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,14 +50,13 @@ public class Driver_view {
         destLabel.setBounds(50, 120, 120, 25);
         destValue.setBounds(200, 120, 200, 25);
 
-
-        // ✅ Animation (moved down to create space)
-        routeLabel.setBounds(120, 190, 300, 25);
+        // Animation
+        routeLabel.setBounds(120, 160, 300, 25);
         routeLabel.setFont(new Font("Arial", Font.BOLD, 14));
 
-        // ✅ Buttons (also moved down to match spacing)
-        startBtn.setBounds(80, 240, 150, 30);
-        problemBtn.setBounds(250, 240, 150, 30);
+        // Buttons
+        startBtn.setBounds(80, 200, 150, 30);
+        problemBtn.setBounds(250, 200, 150, 30);
 
         // Add components
         frame.add(title);

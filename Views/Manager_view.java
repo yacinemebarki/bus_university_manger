@@ -19,9 +19,6 @@ public class Manager_view {
     public JLabel passLabel = new JLabel("Password:");
     public JPasswordField passField = new JPasswordField();
 
-    public JLabel busLabel = new JLabel("Bus Matricule:");
-    public JTextField busField = new JTextField("this only for Divers");
-
     // BUTTONS
     public JButton addStudentBtn = new JButton("Add Student");
     public JButton removeStudentBtn = new JButton("Remove Student");
@@ -56,9 +53,6 @@ public class Manager_view {
         passLabel.setBounds(50, 110, 100, 25);
         passField.setBounds(180, 110, 200, 25);
 
-        busLabel.setBounds(50, 140, 120, 25);
-        busField.setBounds(180, 140, 200, 25);
-
         // ================= BUTTONS =================
         addStudentBtn.setBounds(50, 170, 200, 30);
         removeStudentBtn.setBounds(300, 170, 200, 30);
@@ -89,8 +83,8 @@ public class Manager_view {
         contentPanel.add(addDriverBtn);
         contentPanel.add(removeDriverBtn);
 
-        contentPanel.add(busLabel);
-        contentPanel.add(busField);
+        
+        
 
         contentPanel.add(logoutBtn);
         
