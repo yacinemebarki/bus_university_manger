@@ -2,6 +2,7 @@ package Controllers;
 
 import java.sql.*;
 
+import DBConnections.BusConnection;
 import DBConnections.DriversConnection;
 import DBConnections.StudentConnection;
 
@@ -40,8 +41,6 @@ public class ManagerController {
 
         managerView.menu.busBtn.addActionListener(e->goToBus());
         managerView.menu.lineBtn.addActionListener(e->goToLine());
-
-    
     }
 
 
@@ -102,7 +101,7 @@ public class ManagerController {
 
     // ADD and REMOVE DRIVER ##########################
     public void addDriver() {
-        String sql = "INSERT INTO drivers (name, code, password) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO drivers (name, code, password, busMatricule) VALUES (?, ?, ?, ?);";
 
         Driver driver = new Driver();
 
@@ -112,15 +111,21 @@ public class ManagerController {
             driver.setfullname(managerView.nameField.getText());
             driver.setCode(managerView.codeField.getText());
             driver.setpassword(new String(managerView.passField.getPassword()));
+            driver.setBusMatricule(managerView.busField.getText());
 
             if(!allModels.validateMember(driver)) {
                 JOptionPane.showMessageDialog(managerView.frame, "Please fill in all driver fields");
                 return;
             }
 
+            if (!busMatValidation(driver.getBusMatricule())) {
+                return;
+            }
+
             ps.setString(1, driver.getfull_name());
             ps.setString(2, driver.getCode());
             ps.setString(3, driver.getpassword());
+            ps.setString(4, driver.getBusMatricule());
 
             int r = ps.executeUpdate();
             if (r > 0) {
@@ -130,7 +135,7 @@ public class ManagerController {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(managerView.frame, "Error: " + e.getMessage());
         }
     }
     public void removeDriver() {
@@ -178,5 +183,25 @@ public class ManagerController {
         new LineDashboardController(new LineDashboard_view());
         managerView.frame.setVisible(false);
         
+    }
+
+    public boolean busMatValidation(String busMatricule) {
+        String sql = "SELECT COUNT(*) FROM buses WHERE matricule = ?";
+
+        try (Connection conn = BusConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, busMatricule);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next() && rs.getInt(1) == 0) {
+                JOptionPane.showMessageDialog(managerView.frame, "No bus found with that matricule");
+                return false;
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(managerView.frame, "Error: " + e.getMessage());
+        }
+        return true;
     }
 }

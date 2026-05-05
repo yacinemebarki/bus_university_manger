@@ -24,7 +24,7 @@ public class Login_view {
 
     public Login_view() {
 
-        frame.setSize(1200, 600);
+        frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);

@@ -4,17 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import DBConnections.BusConnection;
+import DBConnections.DriversConnection;
+
 import javax.swing.JOptionPane;
 
 import Views.Driver_view;
 
 public class DriverController {
     private Driver_view driverView;
-    private String driverCode;
 
-    public DriverController(Driver_view driverView, String code) {
+    public DriverController(Driver_view driverView) {
         this.driverView = driverView;
-        this.driverCode = code;
 
         initController();
     }
@@ -22,17 +23,15 @@ public class DriverController {
     public void initController() {
 
         // Load driver info (bus, time, destination)
-        String sql = "SELECT matricule FROM buses WHERE driverId = ?";
+        String sql = "SELECT busMatricule FROM drivers";
 
-        try (Connection conn = DBConnections.BusConnection.getConnection();
+        try (Connection conn = DriversConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, driverCode);
             ps.executeQuery();
 
             ResultSet rs = ps.executeQuery();
 
-            driverView.busValue.setText(rs.next() ? rs.getString("matricule") : "N/A");
+            driverView.busValue.setText(rs.next() ? rs.getString("busMatricule") : "N/A");
 
         } catch (Exception ex) {
             // For demo, just show a message dialog
@@ -45,17 +44,17 @@ public class DriverController {
 
     // start bus
     public void start() {
-        String sql = "UPDATE buses SET work_status = 'in_progress' WHERE driverId = ?";
+        String sql = "UPDATE buses SET work_status = 'ON_WORK' WHERE matricule = ?";
 
         if (driverView.problemBtn.getText().equals("Problem done")) {
             JOptionPane.showMessageDialog(driverView.frame, "Please resolve the problem before starting the bus.");
             return ;
         }
 
-        try (Connection conn = DBConnections.BusConnection.getConnection();
+        try (Connection conn = BusConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, driverCode);
+            ps.setString(1, driverView.busValue.getText());
             ps.executeUpdate();
 
             // Update UI
@@ -67,22 +66,22 @@ public class DriverController {
 
     // declare a problem
     public void declareProblem() {
-        String sql = "UPDATE buses SET problem_status = 'problem' WHERE driverId = ?";
+        String sql = "UPDATE buses SET problem_status = 'problem', work_status = 'stopped' WHERE matricule = ?";
 
-        try (Connection conn = DBConnections.BusConnection.getConnection();
+        try (Connection conn = BusConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, driverCode);
+            ps.setString(1, driverView.busValue.getText());
             ps.executeUpdate();
 
             // Update UI
             driverView.routeLabel.setText("Bus has reported a problem!");
 
             if (driverView.problemBtn.getText().equals("Problem done")) {
-                String sqlDone = "UPDATE buses SET problem_status = 'OK' WHERE driverId = ?";
+                String sqlDone = "UPDATE buses SET problem_status = 'OK' WHERE matricule = ?";
 
                 try (PreparedStatement psDone = conn.prepareStatement(sqlDone)) {
-                    psDone.setString(1, driverCode);
+                    psDone.setString(1, driverView.busValue.getText());
                     psDone.executeUpdate();
                 }
 

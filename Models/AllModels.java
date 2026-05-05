@@ -27,7 +27,8 @@ public class AllModels<T extends Person> {
         if (member instanceof Driver d) {
             return !d.getfull_name().isEmpty()
                 && !d.getCode().isEmpty()
-                && !d.getpassword().isEmpty();
+                && !d.getpassword().isEmpty()
+                && !d.getBusMatricule().isEmpty();
         }
 
         return false;

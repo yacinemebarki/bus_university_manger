@@ -1,4 +1,4 @@
-Manager database :
+Managers :
 +------+----------+-------+
 | code | password | name  |
 +------+----------+-------+
@@ -6,7 +6,7 @@ Manager database :
 +------+----------+-------+
 
 
-Student database :
+Students :
 +----+----------------+----------+--------------+
 | id | name           | password | matricule    |
 +----+----------------+----------+--------------+
@@ -14,26 +14,22 @@ Student database :
 +----+----------------+----------+--------------+
 
 
-Driver database:
-+----+--------------+----------+-------+
-| id | name         | password | code  |
-+----+--------------+----------+-------+
-|  1 | sabar moussa | kdk99kei | D0192 |
-+----+--------------+----------+-------+
+Drivers:
++----+-------------+----------+------+--------------+
+| id | name        | password | code | busMatricule |
++----+-------------+----------+------+--------------+
+|  1 | mohamed ali | o39KDO92 | D091 | BUS0000001   |
++----+-------------+----------+------+--------------+
 
 
-Bus database:
-+----------------+----------------------+------+-----+---------+----------------+
-| Field          | Type                 | Null | Key | Default | Extra          |
-+----------------+----------------------+------+-----+---------+----------------+
-| id             | int                  | NO   | PRI | NULL    | auto_increment |
-| matricule      | varchar(50)          | YES  | UNI | NULL    |                |
-| capacity       | int                  | YES  |     | NULL    |                |
-| work_status    | varchar(20)          | YES  |     | NULL    |                |
-| problem_status | enum('OK','PROBLEM') | YES  |     | NULL    |                |
-+----------------+----------------------+------+-----+---------+----------------+
+Buses:
++----+------------+----------+-------------+----------------+
+| id | matricule  | capacity | work_status | problem_status |
++----+------------+----------+-------------+----------------+
+|  1 | BUS0000001 |       50 | ON_WORK     | OK             |
++----+------------+----------+-------------+----------------+
 
-Line Dashboard:
+LinesDB (Lines Dashboad):
 +----+-----------+-----------+-------------+-------------+
 | id | line_code | name      | destination | distance_km |
 +----+-----------+-----------+-------------+-------------+
@@ -42,7 +38,7 @@ Line Dashboard:
 +----+-----------+-----------+-------------+-------------+
 
 
-line_schedule:
+Line_schedule:
 CREATE TABLE line_schedule (
     id INT AUTO_INCREMENT PRIMARY KEY,
     line_id INT,
@@ -52,6 +48,3 @@ CREATE TABLE line_schedule (
     FOREIGN KEY (line_id) REFERENCES lines(id),
     FOREIGN KEY (bus_id) REFERENCES buses(id)
 );
-
-
-
