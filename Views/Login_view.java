@@ -9,7 +9,7 @@ public class Login_view {
 
     public JLabel titleLabel = new JLabel("Login Page");
 
-    JLabel userLabel = new JLabel("Name:");
+    JLabel userLabel = new JLabel("Matricule/Code:");
     public JTextField nameField = new JTextField();
 
     JLabel passLabel = new JLabel("Password:");

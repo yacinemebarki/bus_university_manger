@@ -5,6 +5,7 @@ import Views.Manager_view;
 import Views.Student_view;
 import DBConnections.ManagerConnection;
 import DBConnections.StudentConnection;
+import Models.AllModels;
 import DBConnections.DriversConnection;
 
 import java.sql.*;
@@ -40,7 +41,7 @@ public class LoginController {
         switch (role) {
 
             case "Manager":
-                String sql = "SELECT * FROM managers WHERE name = ? AND password = ?";
+                String sql = "SELECT * FROM Manager WHERE code = ? AND password = ?";
                 
                 try (Connection conn =  ManagerConnection.getConnection();
                     PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -54,7 +55,7 @@ public class LoginController {
                         JOptionPane.showMessageDialog(loginView.frame, "Manager login successful");
 
                         loginView.frame.setVisible(false); // close the login view
-                        new Manager_view(); // Open the manager view
+                        new ManagerController(new AllModels<>(), new Manager_view()); // Open the manager view
 
                     } else {
                         JOptionPane.showMessageDialog(loginView.frame, "Invalid manager credentials");
@@ -69,7 +70,7 @@ public class LoginController {
                 break;
 
             case "Driver":
-                String sqlDriver = "SELECT * FROM drivers WHERE name = ? AND password = ?";
+                String sqlDriver = "SELECT * FROM drivers WHERE code = ? AND password = ?";
                 try (Connection conn = DriversConnection.getConnection();
                     PreparedStatement ps = conn.prepareStatement(sqlDriver)) {
 
@@ -97,7 +98,7 @@ public class LoginController {
                 break;
 
             case "Student":
-                String sqlStudent = "SELECT * FROM students WHERE name = ? AND password = ?";
+                String sqlStudent = "SELECT * FROM Student WHERE matricule = ? AND password = ?";
 
                 try (Connection conn = StudentConnection.getConnection();
                     PreparedStatement ps = conn.prepareStatement(sqlStudent)) {

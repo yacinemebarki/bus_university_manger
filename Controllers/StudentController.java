@@ -1,7 +1,8 @@
 package Controllers;
 import java.sql.*;
 import Views.Student_view;
-import DBConnections.LinesConnection;
+import DBConnections.TripConnection;
+import java.sql.Time;
 
 public class StudentController {
     private Student_view view;
@@ -17,30 +18,30 @@ public class StudentController {
     }
 
     public void builldTable(){
-        String sql="SELECT * FROM transport_lines";
+        String sql="SELECT * FROM trips";
         
         try{
-            Connection con=LinesConnection.getConnection();
+            Connection con=TripConnection.getConnection();
             PreparedStatement ps=con.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
             view.lines.setRowCount(0);
 
             while(rs.next()){
-                String line=rs.getString("line");
-                String matricule=rs.getString("matricule");
-                String hour=rs.getString("hour");
+                String depart=rs.getString("depart");
+                String matricule=rs.getString("bus_id");
+                Time hour=rs.getTime("start_time");
                 String status=rs.getString("status");
                 String direction=rs.getString("direction");
-                view.lines.addRow(new Object[] {line,matricule,hour,direction,status});
+                view.lines.addRow(new Object[] {depart,matricule,hour,direction,status});
             }
         }catch(Exception e){
             e.printStackTrace();
         }
     }
     public void searchByLine(){
-        String sql="SELECT * FROM transport_lines";
+        String sql="SELECT * FROM trips";
         try{
-            Connection con=LinesConnection.getConnection();
+            Connection con=TripConnection.getConnection();
             PreparedStatement ps=con.prepareStatement(sql);
             String line_name=view.searchField.getText();
             
@@ -50,12 +51,12 @@ public class StudentController {
             boolean found = false;
             while(rs.next()){
                 
-                String line=rs.getString("line");
+                String line=rs.getString("depart");
                 String direction=rs.getString("direction");
                 if(similarity(line_name.toLowerCase(), line.toLowerCase())>0.5 || similarity(line_name.toLowerCase(), direction.toLowerCase())>0.5){
                     found=true;
-                    String matricule=rs.getString("matricule");
-                    String hour=rs.getString("hour");
+                    String matricule=rs.getString("bus_id");
+                    Time hour=rs.getTime("start_time");
                     String status=rs.getString("status");
                     
                     view.lines.addRow(new Object[] {line,matricule,hour,direction,status});

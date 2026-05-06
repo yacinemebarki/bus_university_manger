@@ -13,6 +13,7 @@ import Members.Driver;
 import Models.AllModels;
 import Views.LineDashboard_view;
 import Views.Manager_view;
+import Views.ProblemDashboard;
 import Views.bus_view;
 
 import javax.swing.JOptionPane;
@@ -40,14 +41,14 @@ public class ManagerController {
 
         managerView.menu.busBtn.addActionListener(e->goToBus());
         managerView.menu.lineBtn.addActionListener(e->goToLine());
-
+        managerView.menu.problemBtn.addActionListener(e->gotToproblem());
     
     }
 
 
     // ADD and REMOVE STUDENT ##########################
     public void addStudent() {
-        String sql = "INSERT INTO students (name, matricule, password) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO Student (name, matricule, password) VALUES (?, ?, ?);";
 
         Student student = new Student();
 
@@ -79,7 +80,7 @@ public class ManagerController {
         }
     }
     public void removeStudent() {
-        String sql = "DELETE FROM students WHERE matricule = ?;";
+        String sql = "DELETE FROM Student WHERE matricule = ?;";
 
         try (Connection conn = StudentConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -102,7 +103,7 @@ public class ManagerController {
 
     // ADD and REMOVE DRIVER ##########################
     public void addDriver() {
-        String sql = "INSERT INTO drivers (name, code, password) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO Driver (name, code, password) VALUES (?, ?, ?);";
 
         Driver driver = new Driver();
 
@@ -134,7 +135,7 @@ public class ManagerController {
         }
     }
     public void removeDriver() {
-        String sql = "DELETE FROM drivers WHERE code = ?;";
+        String sql = "DELETE FROM Driver WHERE code = ?;";
 
         try (Connection conn = DriversConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -178,5 +179,9 @@ public class ManagerController {
         new LineDashboardController(new LineDashboard_view());
         managerView.frame.setVisible(false);
         
+    }
+    public void gotToproblem(){
+        new ProblemDashboardController(new ProblemDashboard());
+        managerView.frame.setVisible(false);
     }
 }

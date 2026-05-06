@@ -2,19 +2,18 @@ package Controllers;
 
 import java.sql.*;
 
-
 import javax.swing.JOptionPane;
 
 import Models.LineModel;
 import Views.LineDashboard_view;
 import Members.Line;
 import Models.AllModels;
-import Views.LineDashboard_view;
 import Views.Manager_view;
+import Views.ProblemDashboard;
 import Views.bus_view;
 
-
 public class LineDashboardController {
+
     LineDashboard_view lineDashboardView;
 
     public LineDashboardController(LineDashboard_view lineDashboardView) {
@@ -24,18 +23,20 @@ public class LineDashboardController {
         loadLines();
     }
 
+    // ================= LOAD =================
     public void loadLines() {
 
         lineDashboardView.model.setRowCount(0);
 
-        String sql = "SELECT * FROM linesDB";
+        String sql = "SELECT * FROM LineDashboard";
 
         try (Connection conn = DBConnections.LinesConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 lineDashboardView.model.addRow(new Object[]{
+                        rs.getInt("id"),
                         rs.getString("line_code"),
                         rs.getString("name"),
                         rs.getString("destination"),
@@ -50,23 +51,26 @@ public class LineDashboardController {
         }
     }
 
+    // ================= INIT =================
     public void initController() {
-        System.out.println("ok");
-        // Buttons
+
         lineDashboardView.addBtn.addActionListener(e -> addLine());
         lineDashboardView.removeBtn.addActionListener(e -> removeLine());
         lineDashboardView.updateBtn.addActionListener(e -> updateLine());
         lineDashboardView.searchBtn.addActionListener(e -> searchLines());
-        lineDashboardView.menu.busBtn.addActionListener(e->goToBus());
-        lineDashboardView.menu.personBtn.addActionListener(e->goToperson());
+
+        lineDashboardView.menu.busBtn.addActionListener(e -> goToBus());
+        lineDashboardView.menu.personBtn.addActionListener(e -> goToperson());
+        lineDashboardView.menu.problemBtn.addActionListener(e -> gotToproblem());
     }
 
-    // add
+    // ================= ADD =================
     public void addLine() {
-        String sql = "INSERT INTO linesDB (line_code, name, destination, distance_km) VALUES (?, ?, ?, ?)";
+
+        String sql = "INSERT INTO LineDashboard (line_code, name, destination, distance_km) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DBConnections.LinesConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             Line line = new Line();
             line.setCode(lineDashboardView.codeField.getText());
@@ -75,7 +79,7 @@ public class LineDashboardController {
             line.setDistance(Double.parseDouble(lineDashboardView.distanceField.getText()));
 
             if(!LineModel.validateLine(line)) {
-                JOptionPane.showMessageDialog(lineDashboardView.frame, "Please fill in all line fields correctly");
+                JOptionPane.showMessageDialog(lineDashboardView.frame, "Fill all fields correctly");
                 return;
             }
 
@@ -84,7 +88,7 @@ public class LineDashboardController {
             ps.setString(3, line.getDestination());
             ps.setDouble(4, line.getDistance());
 
-            int rowsAffected = ps.executeUpdate();
+            ps.executeUpdate();
 
             JOptionPane.showMessageDialog(lineDashboardView.frame, "Line added successfully!");
 
@@ -92,39 +96,42 @@ public class LineDashboardController {
             loadLines();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(lineDashboardView.frame, "Error adding line: " + e.getMessage());
+            JOptionPane.showMessageDialog(lineDashboardView.frame, "Error: " + e.getMessage());
         }
     }
 
-    // remove
+    // ================= REMOVE =================
     public void removeLine() {
-        String sql = "DELETE FROM linesDB WHERE line_code = ?";
+
+        String sql = "DELETE FROM LineDashboard WHERE line_code = ?";
 
         try (Connection conn = DBConnections.LinesConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, lineDashboardView.codeField.getText());
 
-            int rowsAffected = ps.executeUpdate();
+            int rows = ps.executeUpdate();
 
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(lineDashboardView.frame, "Line removed successfully!");
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(lineDashboardView.frame, "Line removed");
                 clearFields();
                 loadLines();
             } else {
-                JOptionPane.showMessageDialog(lineDashboardView.frame, "No line found with that code.");
+                JOptionPane.showMessageDialog(lineDashboardView.frame, "Line not found");
             }
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(lineDashboardView.frame, "Error removing line: " + e.getMessage());
+            JOptionPane.showMessageDialog(lineDashboardView.frame, "Error: " + e.getMessage());
         }
     }
 
-    // update
+    // ================= UPDATE =================
     public void updateLine() {
-        String sql = "UPDATE linesDB SET name = ?, destination = ?, distance_km = ? WHERE line_code = ?";
+
+        String sql = "UPDATE LineDashboard SET name=?, destination=?, distance_km=? WHERE line_code=?";
 
         try (Connection conn = DBConnections.LinesConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             Line line = new Line();
             line.setCode(lineDashboardView.codeField.getText());
@@ -133,7 +140,7 @@ public class LineDashboardController {
             line.setDistance(Double.parseDouble(lineDashboardView.distanceField.getText()));
 
             if(!LineModel.validateLine(line)) {
-                JOptionPane.showMessageDialog(lineDashboardView.frame, "Please fill in all line fields correctly");
+                JOptionPane.showMessageDialog(lineDashboardView.frame, "Fill all fields correctly");
                 return;
             }
 
@@ -142,29 +149,31 @@ public class LineDashboardController {
             ps.setDouble(3, line.getDistance());
             ps.setString(4, line.getCode());
 
-            int rowsAffected = ps.executeUpdate();
+            int rows = ps.executeUpdate();
 
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(lineDashboardView.frame, "Line updated successfully!");
+            if (rows > 0) {
+                JOptionPane.showMessageDialog(lineDashboardView.frame, "Line updated");
                 clearFields();
                 loadLines();
             } else {
-                JOptionPane.showMessageDialog(lineDashboardView.frame, "No line found with that code.");
+                JOptionPane.showMessageDialog(lineDashboardView.frame, "Line not found");
             }
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(lineDashboardView.frame, "Error updating line: " + e.getMessage());
+            JOptionPane.showMessageDialog(lineDashboardView.frame, "Error: " + e.getMessage());
         }
     }
 
-    // search
-
+    // ================= SEARCH =================
     public void searchLines() {
-        String sql = "SELECT * FROM linesDB WHERE line_code LIKE ? OR destination LIKE ?";
+
+        String sql = "SELECT * FROM LineDashboard WHERE line_code LIKE ? OR destination LIKE ?";
 
         try (Connection conn = DBConnections.LinesConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             String keyword = "%" + lineDashboardView.searchField.getText() + "%";
+
             ps.setString(1, keyword);
             ps.setString(2, keyword);
 
@@ -174,6 +183,7 @@ public class LineDashboardController {
 
             while (rs.next()) {
                 lineDashboardView.model.addRow(new Object[]{
+                        rs.getInt("id"),
                         rs.getString("line_code"),
                         rs.getString("name"),
                         rs.getString("destination"),
@@ -182,28 +192,33 @@ public class LineDashboardController {
             }
 
             lineDashboardView.updateTotal();
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(lineDashboardView.frame, "Error searching lines: " + e.getMessage());
+            JOptionPane.showMessageDialog(lineDashboardView.frame, "Error: " + e.getMessage());
         }
     }
 
-    // clear input fields
+    // ================= CLEAR =================
     private void clearFields() {
         lineDashboardView.codeField.setText("");
         lineDashboardView.nameField.setText("");
         lineDashboardView.destinationField.setText("");
         lineDashboardView.distanceField.setText("");
-
     }
+
+    // ================= NAVIGATION =================
     public void goToBus(){
         new BusController(new bus_view());
         lineDashboardView.frame.setVisible(false);
-        
     }
+
     public void goToperson(){
         new ManagerController(new AllModels<>(), new Manager_view());
         lineDashboardView.frame.setVisible(false);
-        
+    }
 
+    public void gotToproblem(){
+        new ProblemDashboardController(new ProblemDashboard());
+        lineDashboardView.frame.setVisible(false);
     }
 }

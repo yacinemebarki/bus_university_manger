@@ -57,14 +57,15 @@ Problem:
 +--------------+-------------+------+-----+-------------------+-------------------+
 
 line_schedule:
-CREATE TABLE line_schedule (
+CREATE TABLE trips (
     id INT AUTO_INCREMENT PRIMARY KEY,
     line_id INT,
     start_time TIME,
     bus_id INT,
-
-    FOREIGN KEY (line_id) REFERENCES lines(id),
-    FOREIGN KEY (bus_id) REFERENCES buses(id)
+    driver_id varchar(20),
+    depart varchar(20),
+    direction varchar(20),
+    status varchar(20)
 );
 
 
