@@ -11,7 +11,7 @@ import Members.Student;
 import Members.Driver;
 
 import Models.AllModels;
-import Views.LineDashboard_view;
+import Views.Trip_view;
 import Views.Manager_view;
 import Views.ProblemDashboard;
 import Views.bus_view;
@@ -158,9 +158,7 @@ public class ManagerController {
 
     // Lines and Buses management can be added here in the future
 
-    public void lineDashboard() {
-        new LineDashboardController(new LineDashboard_view());
-    }
+    
 
 
     // LOGOUT ##########################
@@ -176,7 +174,7 @@ public class ManagerController {
         
     }
     public void goToLine(){
-        new LineDashboardController(new LineDashboard_view());
+        new LineDashboardController(new Trip_view());
         managerView.frame.setVisible(false);
         
     }

@@ -2,9 +2,9 @@ package Controllers;
 
 import DBConnections.BusConnection;
 import Models.AllModels;
-import Views.LineDashboard_view;
 import Views.Manager_view;
 import Views.ProblemDashboard;
+import Views.Trip_view;
 import Views.bus_view;
 
 import java.sql.*;
@@ -348,7 +348,7 @@ public class BusController {
 
     // ================= NAVIGATION =================
     public void goToLine(){
-        new LineDashboardController(new LineDashboard_view());
+        new LineDashboardController(new Trip_view());
         view.frame.setVisible(false);
     }
 

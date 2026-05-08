@@ -1,14 +1,16 @@
 package Controllers;
 
-import Views.LineDashboard_view;
 import Views.Manager_view;
 import Views.ProblemDashboard;
+import Views.Trip_view;
 import Views.bus_view;
 import DBConnections.ProblemConnection;
+import DBConnections.TripConnection;
 import Models.AllModels;
 
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class ProblemDashboardController {
 
@@ -83,10 +85,12 @@ public class ProblemDashboardController {
                 }
             }
         });
+        
 
         view.menu.busBtn.addActionListener(e->goToBus());
         view.menu.personBtn.addActionListener(e->goToperson());
     }
+    
 
     // ================= BUILD TABLE =================
     public void buildtable(){
@@ -129,6 +133,7 @@ public class ProblemDashboardController {
             e.printStackTrace();
         }
     }
+
 
     // ================= SEARCH BY LINE =================
     public void searchByLine(){
@@ -180,6 +185,7 @@ public class ProblemDashboardController {
             e.printStackTrace();
         }
     }
+
 
     // ================= SEARCH BY TYPE =================
     public void searchByProblem(){
@@ -281,7 +287,7 @@ public class ProblemDashboardController {
 
     // ================= NAVIGATION =================
     public void goToLine(){
-        new LineDashboardController(new LineDashboard_view());
+        new LineDashboardController(new Trip_view());
         view.frame.setVisible(false);
     }
 
