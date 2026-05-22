@@ -13,6 +13,6 @@ import Models.AllModels;
 public class Main {
     public static void main(String[] args) {
 
-        new Driver_view();
+        new LoginController(new Login_view());
     }
 }
