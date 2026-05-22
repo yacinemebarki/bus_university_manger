@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class Driver_view {
-
+        public JButton logoutBtn = new JButton("Logout");
     public JFrame frame =
             new JFrame("Driver Dashboard");
 
@@ -26,6 +26,7 @@ public class Driver_view {
 
     public DefaultTableModel model =
             new DefaultTableModel(columns, 0);
+
 
     public JTable tripTable =
             new JTable(model);
@@ -63,8 +64,9 @@ public class Driver_view {
                 1200,
                 500
         );
-
-        tripTable.setRowHeight(35);
+        logoutBtn.setBounds(1050, 30, 120, 35);
+        logoutBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        logoutBtn.setForeground(Color.RED);
 
         tripTable.setFont(
                 new Font(
@@ -86,6 +88,7 @@ public class Driver_view {
         frame.add(title);
 
         frame.add(scroll);
+        frame.add(logoutBtn);
 
         frame.setVisible(true);
     }

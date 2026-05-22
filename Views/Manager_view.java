@@ -25,6 +25,7 @@ public class Manager_view {
 
     public JButton addDriverBtn = new JButton("Add Driver");
     public JButton removeDriverBtn = new JButton("Remove Driver");
+    public JButton searchBtn = new JButton("Search");
 
     public JButton logoutBtn = new JButton("Logout");
     public JPanel contentPanel = new JPanel();
@@ -59,6 +60,7 @@ public class Manager_view {
         removeDriverBtn.setBounds(260, 245, 200, 35);
 
         logoutBtn.setBounds(170, 310, 200, 40);
+        searchBtn.setBounds(40, 300, 120, 35);
 
         // ================= ADD COMPONENTS =================
         contentPanel.setLayout(null);
@@ -80,6 +82,7 @@ public class Manager_view {
         contentPanel.add(removeDriverBtn);
 
         contentPanel.add(logoutBtn);
+        contentPanel.add(searchBtn);
 
         frame.setLayout(new BorderLayout());
 

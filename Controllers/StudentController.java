@@ -1,8 +1,9 @@
 package Controllers;
 import java.sql.*;
+
+import Views.Login_view;
 import Views.Student_view;
 import DBConnections.TripConnection;
-import java.sql.Time;
 
 public class StudentController {
     private Student_view view;
@@ -15,6 +16,8 @@ public class StudentController {
     public void initController(){
         view.searchBtn.addActionListener(e -> searchByLine());
         view.clearBtn.addActionListener(e -> clear());
+        view.logoutBtn.addActionListener(e -> logout());
+
     }
 
     public void builldTable(){
@@ -89,5 +92,9 @@ public class StudentController {
         else{
             return 0;
         }
+    }
+    public void logout() {
+        new LoginController(new Login_view());
+        view.frame.setVisible(false);
     }
 }

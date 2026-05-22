@@ -3,6 +3,7 @@ package Controllers;
 import DBConnections.ProblemConnection;
 import DBConnections.TripConnection;
 import Views.Driver_view;
+import Views.Login_view;
 
 import javax.swing.*;
 import java.sql.*;
@@ -48,6 +49,7 @@ public class DriverController {
                                                 }
                                         }
                                 });
+                view.logoutBtn.addActionListener(e -> logout());                
         }
 
         // LOAD DRIVER TRIPS
@@ -301,5 +303,9 @@ public class DriverController {
 
                         e.printStackTrace();
                 }
+        }
+        public void logout() {
+                new LoginController(new Login_view());
+                view.frame.setVisible(false);
         }
 }

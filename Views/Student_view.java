@@ -30,7 +30,7 @@ public class Student_view {
         }
     };
     public JScrollPane scroll = new JScrollPane(table);
-
+    public JButton logoutBtn=new JButton("Logout");
     public Student_view() {
         // frame costumization
 
@@ -57,6 +57,9 @@ public class Student_view {
         clearBtn.setBounds(440, 60, 55, 32);
         clearBtn.setFont(new Font("Arial", Font.BOLD, 16));
         clearBtn.setForeground(Color.RED);
+        logoutBtn.setBounds(700, 60, 120, 32);
+        logoutBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        logoutBtn.setForeground(Color.RED);
 
         // table
 
@@ -96,7 +99,7 @@ public class Student_view {
         frame.add(searchField);
         frame.add(searchBtn);
         frame.add(clearBtn);
-
+        frame.add(logoutBtn);
         frame.add(title_bus);
         frame.add(scroll);
         frame.setVisible(true);
