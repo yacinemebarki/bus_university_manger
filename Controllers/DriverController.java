@@ -1,98 +1,305 @@
 package Controllers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import javax.swing.JOptionPane;
-
+import DBConnections.ProblemConnection;
+import DBConnections.TripConnection;
 import Views.Driver_view;
 
+import javax.swing.*;
+import java.sql.*;
+
 public class DriverController {
-    private Driver_view driverView;
-    private String driverCode;
 
-    public DriverController(Driver_view driverView, String code) {
-        this.driverView = driverView;
-        this.driverCode = code;
+        private Driver_view view;
 
-        initController();
-    }
+        private String driver_code;
 
-    public void initController() {
+        public DriverController(
+                        Driver_view view,
+                        String driver_code) {
 
-        // Load driver info (bus, time, destination)
-        String sql = "SELECT matricule FROM buses WHERE driverId = ?";
+                this.view = view;
 
-        try (Connection conn = DBConnections.BusConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                this.driver_code = driver_code;
 
-            ps.setString(1, driverCode);
-            ps.executeQuery();
+                buildTable();
 
-            ResultSet rs = ps.executeQuery();
-
-            driverView.busValue.setText(rs.next() ? rs.getString("matricule") : "N/A");
-
-        } catch (Exception ex) {
-            // For demo, just show a message dialog
+                initController();
         }
 
-        // Actions
-        driverView.startBtn.addActionListener(e -> start());
-        driverView.problemBtn.addActionListener(e -> declareProblem());
-    }
+        public void initController() {
 
-    // start bus
-    public void start() {
-        String sql = "UPDATE buses SET work_status = 'in_progress' WHERE driverId = ?";
+                view.tripTable.addMouseListener(
 
-        if (driverView.problemBtn.getText().equals("Problem done")) {
-            JOptionPane.showMessageDialog(driverView.frame, "Please resolve the problem before starting the bus.");
-            return ;
+                                new java.awt.event.MouseAdapter() {
+
+                                        @Override
+                                        public void mouseClicked(
+                                                        java.awt.event.MouseEvent e) {
+
+                                                int row = view.tripTable.getSelectedRow();
+
+                                                if (row != -1) {
+
+                                                        String trip_id = view.model.getValueAt(
+                                                                        row,
+                                                                        0).toString();
+
+                                                        showOptions(trip_id, row);
+                                                }
+                                        }
+                                });
         }
 
-        try (Connection conn = DBConnections.BusConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+        // LOAD DRIVER TRIPS
+        public void buildTable() {
 
-            ps.setString(1, driverCode);
-            ps.executeUpdate();
+                String sql = "SELECT * FROM trips WHERE driver_id=?";
 
-            // Update UI
-            driverView.routeLabel.setText("Bus is now in progress...");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(driverView.frame, "Error starting the bus: " + ex.getMessage());
-        }
-    }
+                try {
 
-    // declare a problem
-    public void declareProblem() {
-        String sql = "UPDATE buses SET problem_status = 'problem' WHERE driverId = ?";
+                        Connection con = TripConnection.getConnection();
 
-        try (Connection conn = DBConnections.BusConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                        PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setString(1, driverCode);
-            ps.executeUpdate();
+                        ps.setString(1, driver_code);
 
-            // Update UI
-            driverView.routeLabel.setText("Bus has reported a problem!");
+                        ResultSet rs = ps.executeQuery();
 
-            if (driverView.problemBtn.getText().equals("Problem done")) {
-                String sqlDone = "UPDATE buses SET problem_status = 'OK' WHERE driverId = ?";
+                        view.model.setRowCount(0);
 
-                try (PreparedStatement psDone = conn.prepareStatement(sqlDone)) {
-                    psDone.setString(1, driverCode);
-                    psDone.executeUpdate();
+                        while (rs.next()) {
+
+                                String id = rs.getString("id");
+
+                                String depart = rs.getString("depart");
+
+                                String direction = rs.getString("direction");
+
+                                String start_time = rs.getString("start_time");
+
+                                String bus = rs.getString("bus_id");
+
+                                view.model.addRow(
+                                                new Object[] {
+
+                                                                id,
+                                                                depart,
+                                                                direction,
+                                                                start_time,
+                                                                bus
+
+                                                });
+                        }
+
                 }
 
-                driverView.routeLabel.setText("Problem resolved. Bus is back to normal.");
-                driverView.problemBtn.setText("Report Problem");
-            }else {
-                driverView.problemBtn.setText("Problem done");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(driverView.frame, "Error declaring the problem: " + ex.getMessage());
+                catch (Exception e) {
+
+                        e.printStackTrace();
+                }
         }
-    }
+
+        // OPTIONS PANEL
+        public void showOptions(
+                        String trip_id,
+                        int row) {
+
+                String[] options = {
+
+                                "Update Status",
+                                "Report Problem"
+
+                };
+
+                int choice = JOptionPane.showOptionDialog(
+
+                                null,
+
+                                "Choose Action For Trip "
+                                                + trip_id,
+
+                                "Trip Options",
+
+                                JOptionPane.DEFAULT_OPTION,
+
+                                JOptionPane.INFORMATION_MESSAGE,
+
+                                null,
+
+                                options,
+
+                                options[0]);
+
+                // STATUS
+                if (choice == 0) {
+
+                        showStatusPanel(
+                                        trip_id,
+                                        row);
+                }
+
+                // REPORT
+                else if (choice == 1) {
+
+                        showProblemPanel(
+                                        trip_id);
+                }
+        }
+
+        // STATUS PANEL
+        public void showStatusPanel(
+                        String trip_id,
+                        int row) {
+
+                String[] status = {
+
+                                "AT STATION",
+                                "ON ROAD",
+                                "DELAYED",
+                                "FINISHED"
+
+                };
+
+                String selected_status = (String) JOptionPane.showInputDialog(
+
+                                null,
+
+                                "Select Trip Status",
+
+                                "Status",
+
+                                JOptionPane.QUESTION_MESSAGE,
+
+                                null,
+
+                                status,
+
+                                status[0]);
+
+                if (selected_status != null) {
+
+                        updateStatus(
+                                        trip_id,
+                                        selected_status);
+
+                        JOptionPane.showMessageDialog(
+                                        null,
+                                        "Status Updated");
+                }
+        }
+
+        // REPORT PANEL
+        public void showProblemPanel(
+                        String trip_id) {
+
+                String[] problems = {
+
+                                "Driver Fatigue",
+                                "Full Bus",
+                                "Vehicle Problem",
+                                "Road Problem"
+
+                };
+
+                String selected_problem = (String) JOptionPane.showInputDialog(
+
+                                null,
+
+                                "Select Problem",
+
+                                "Report Problem",
+
+                                JOptionPane.QUESTION_MESSAGE,
+
+                                null,
+
+                                problems,
+
+                                problems[0]);
+
+                if (selected_problem != null) {
+
+                        reportProblem(
+                                        trip_id,
+                                        selected_problem);
+
+                        JOptionPane.showMessageDialog(
+                                        null,
+                                        "Problem Reported");
+                }
+        }
+
+        // UPDATE STATUS DATABASE
+        public void updateStatus(
+                        String trip_id,
+                        String status) {
+
+                String sql = "UPDATE trips SET status=? WHERE id=?";
+
+                try {
+
+                        Connection con = TripConnection.getConnection();
+
+                        PreparedStatement ps = con.prepareStatement(sql);
+
+                        ps.setString(1, status);
+
+                        ps.setString(2, trip_id);
+
+                        ps.executeUpdate();
+
+                        buildTable();
+
+                }
+
+                catch (Exception e) {
+
+                        e.printStackTrace();
+                }
+        }
+
+        // REPORT PROBLEM DATABASE
+        public void reportProblem(
+                        String trip_id,
+                        String problem_type) {
+
+                String sql = "INSERT INTO Problem "
+                                + "(driver_id,trip_id,"
+                                + "problem_date,"
+                                + "problem_time,"
+                                + "problem_type)"
+                                + " VALUES(?,?,?,?,?)";
+
+                try {
+
+                        Connection con = ProblemConnection.getConnection();
+
+                        PreparedStatement ps = con.prepareStatement(sql);
+
+                        ps.setString(1, driver_code);
+
+                        ps.setString(2, trip_id);
+
+                        ps.setDate(
+                                        3,
+                                        new java.sql.Date(
+                                                        System.currentTimeMillis()));
+
+                        ps.setTime(
+                                        4,
+                                        new java.sql.Time(
+                                                        System.currentTimeMillis()));
+
+                        ps.setString(
+                                        5,
+                                        problem_type);
+
+                        ps.executeUpdate();
+                }
+
+                catch (Exception e) {
+
+                        e.printStackTrace();
+                }
+        }
 }

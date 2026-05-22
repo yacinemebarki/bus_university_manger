@@ -9,12 +9,11 @@ public class ProblemDashboard {
 
     public JFrame frame = new JFrame("Problem Dashboard");
 
-    public String[] ProblemType = {"Driver Fatigue","Full Bus", "Vehicle Problem","Road Problem"};
+    public String[] ProblemType = { "Driver Fatigue", "Full Bus", "Vehicle Problem", "Road Problem" };
     public JComboBox<String> ProblemBox = new JComboBox<>(ProblemType);
 
-    public String[] searchType = {"By name","By Type", "Both"};
+    public String[] searchType = { "By name", "By Type", "Both" };
     public JComboBox<String> seachBox = new JComboBox<>(searchType);
-    
 
     public JLabel title = new JLabel("Problem Manager");
 
@@ -29,7 +28,7 @@ public class ProblemDashboard {
 
     public JButton searchBtn = new JButton("Search");
 
-    String[] columns = {"Problem id","trip id", "line_name","Driver ID", "Problem Type", "Date", "Time", "Message"};
+    String[] columns = { "Problem id", "trip id", "line_name", "Driver ID", "Problem Type", "Date", "Time", "Message" };
     public DefaultTableModel model = new DefaultTableModel(columns, 0);
     public JTable table = new JTable(model);
     public JScrollPane scroll = new JScrollPane(table);
@@ -44,7 +43,7 @@ public class ProblemDashboard {
     public ProblemDashboard() {
 
         // ================= FRAME =================
-        frame.setSize(1200, 650);
+        frame.setSize(1200, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
@@ -65,6 +64,11 @@ public class ProblemDashboard {
         topPanel.add(statsPanel, BorderLayout.CENTER);
 
         // ================= FILTERS =================
+        nameField.setPreferredSize(new Dimension(220, 28));
+        ProblemBox.setPreferredSize(new Dimension(150, 28));
+        seachBox.setPreferredSize(new Dimension(130, 28));
+        searchBtn.setPreferredSize(new Dimension(110, 30));
+
         filterPanel.add(name);
         filterPanel.add(nameField);
         filterPanel.add(new JLabel("Problem Type:"));
@@ -72,14 +76,13 @@ public class ProblemDashboard {
         filterPanel.add(new JLabel("search by"));
         filterPanel.add(seachBox);
         filterPanel.add(searchBtn);
-        
-        
 
         // ================= TABLE =================
-        table.setRowHeight(25);
-        scroll.setPreferredSize(new Dimension(700, 400));
+        table.setRowHeight(28);
+        scroll.setPreferredSize(new Dimension(980, 420));
 
-        JPanel centerPanel = new JPanel(new BorderLayout());
+        JPanel centerPanel = new JPanel(new BorderLayout(0, 10));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         centerPanel.add(filterPanel, BorderLayout.NORTH);
         centerPanel.add(scroll, BorderLayout.CENTER);
 

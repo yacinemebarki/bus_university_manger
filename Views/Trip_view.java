@@ -19,14 +19,13 @@ public class Trip_view {
     public JLabel title = new JLabel("Find Your Transport");
 
     // SEARCH TYPE (COMBOBOX)
-    String[] types = {"Trip ID", "Driver ID", "Matricule", "Status","station"};
+    String[] types = { "Trip ID", "Driver ID", "Matricule", "Status", "station" };
     public JComboBox<String> searchBox = new JComboBox<>(types);
 
     public JTextField searchField = new JTextField();
     public JButton searchBtn = new JButton("Search");
     public JButton clearBtn = new JButton("X");
-    public JButton addBtn=new JButton("ajouter");
-    
+    public JButton addBtn = new JButton("ajouter");
 
     // TABLE TITLE
     public JLabel title_bus = new JLabel("All Trips");
@@ -51,10 +50,11 @@ public class Trip_view {
     public Trip_view() {
 
         // ===== FRAME =====
-        frame.setSize(1000, 550);
+        frame.setSize(1200, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
 
         // ===== LEFT MENU =====
         frame.add(menu, BorderLayout.WEST);
@@ -64,7 +64,7 @@ public class Trip_view {
         centerPanel.setLayout(null);
 
         // ===== TITLE =====
-        title.setBounds(30, 10, 400, 30);
+        title.setBounds(30, 10, 500, 30);
         title.setFont(new Font("Arial", Font.BOLD, 20));
 
         // ===== SEARCH TYPE (COMBOBOX) =====
@@ -74,30 +74,29 @@ public class Trip_view {
         searchBox.setFocusable(false);
 
         // ===== SEARCH FIELD =====
-        searchField.setBounds(200, 50, 200, 30);
+        searchField.setBounds(200, 50, 250, 30);
         searchField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
         // ===== BUTTONS =====
-        searchBtn.setBounds(420, 50, 100, 30);
+        searchBtn.setBounds(470, 50, 110, 30);
         searchBtn.setBackground(new Color(52, 152, 219));
         searchBtn.setForeground(Color.WHITE);
         searchBtn.setFocusPainted(false);
 
-        clearBtn.setBounds(530, 50, 50, 30);
+        clearBtn.setBounds(590, 50, 60, 30);
         clearBtn.setForeground(Color.RED);
         clearBtn.setFocusPainted(false);
-        addBtn.setBounds(650,50,100,30);
+        addBtn.setBounds(670, 50, 120, 30);
         addBtn.setBackground(new Color(52, 152, 219));
         addBtn.setForeground(Color.WHITE);
         addBtn.setFocusPainted(false);
-        
 
         // ===== TABLE TITLE =====
-        title_bus.setBounds(30, 120, 300, 30);
+        title_bus.setBounds(30, 100, 300, 30);
         title_bus.setFont(new Font("Arial", Font.BOLD, 16));
 
         // ===== TABLE =====
-        scroll.setBounds(30, 160, 700, 320);
+        scroll.setBounds(30, 140, 900, 380);
 
         table.setRowHeight(28);
         table.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -129,7 +128,6 @@ public class Trip_view {
         centerPanel.add(addBtn);
         centerPanel.add(title_bus);
         centerPanel.add(scroll);
-        
 
         frame.add(centerPanel, BorderLayout.CENTER);
 

@@ -26,43 +26,39 @@ public class Manager_view {
     public JButton addDriverBtn = new JButton("Add Driver");
     public JButton removeDriverBtn = new JButton("Remove Driver");
 
-    
-
-
     public JButton logoutBtn = new JButton("Logout");
     public JPanel contentPanel = new JPanel();
-    public LeftMenu menu=new LeftMenu();
+    public LeftMenu menu = new LeftMenu();
 
     public Manager_view() {
 
-        frame.setSize(900, 500);
+        frame.setSize(1200, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
 
         // Title
-        title.setBounds(200, 10, 300, 30);
+        title.setBounds(220, 10, 300, 30);
         title.setFont(new Font("Arial", Font.BOLD, 20));
 
         // ================= TOP INPUTS =================
-        nameLabel.setBounds(50, 50, 100, 25);
-        nameField.setBounds(180, 50, 200, 25);
+        nameLabel.setBounds(40, 60, 120, 25);
+        nameField.setBounds(170, 60, 240, 25);
 
-        codeLabel.setBounds(50, 80, 120, 25);
-        codeField.setBounds(180, 80, 200, 25);
+        codeLabel.setBounds(40, 100, 120, 25);
+        codeField.setBounds(170, 100, 240, 25);
 
-        passLabel.setBounds(50, 110, 100, 25);
-        passField.setBounds(180, 110, 200, 25);
+        passLabel.setBounds(40, 140, 120, 25);
+        passField.setBounds(170, 140, 240, 25);
 
         // ================= BUTTONS =================
-        addStudentBtn.setBounds(50, 170, 200, 30);
-        removeStudentBtn.setBounds(300, 170, 200, 30);
+        addStudentBtn.setBounds(40, 190, 200, 35);
+        removeStudentBtn.setBounds(260, 190, 200, 35);
 
-        addDriverBtn.setBounds(50, 220, 200, 30);
-        removeDriverBtn.setBounds(300, 220, 200, 30);
+        addDriverBtn.setBounds(40, 245, 200, 35);
+        removeDriverBtn.setBounds(260, 245, 200, 35);
 
-        
-
-        logoutBtn.setBounds(200, 330, 150, 30);
+        logoutBtn.setBounds(170, 310, 200, 40);
 
         // ================= ADD COMPONENTS =================
         contentPanel.setLayout(null);
@@ -83,22 +79,14 @@ public class Manager_view {
         contentPanel.add(addDriverBtn);
         contentPanel.add(removeDriverBtn);
 
-        
-        
-
         contentPanel.add(logoutBtn);
-        
-        
-        
 
         frame.setLayout(new BorderLayout());
 
-
         frame.add(menu, BorderLayout.WEST);
 
-
         frame.add(contentPanel, BorderLayout.CENTER);
-        
+
         frame.setVisible(true);
     }
 }

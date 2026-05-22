@@ -1,98 +1,92 @@
 package Views;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class Driver_view {
 
-    public JFrame frame = new JFrame("Driver Dashboard");
+    public JFrame frame =
+            new JFrame("Driver Dashboard");
 
-    // Title
-    JLabel title = new JLabel("Driver Panel");
+    // TITLE
+    JLabel title =
+            new JLabel("Driver Trips Dashboard");
 
-    // 🔒 READ-ONLY INFO
-    JLabel busLabel = new JLabel("Bus Code:");
-    public JLabel busValue = new JLabel("-");
+    // TABLE
+    String[] columns = {
 
-    JLabel timeLabel = new JLabel("Start Time:");
-    public JLabel timeValue = new JLabel("-");
+            "Trip ID",
+            "Departure",
+            "Destination",
+            "Start Time",
+            "Bus"
 
-    JLabel destLabel = new JLabel("Destination:");
-    public JLabel destValue = new JLabel("-");
+    };
 
-    // Animation
-    public JLabel routeLabel = new JLabel("Start =====> Destination");
+    public DefaultTableModel model =
+            new DefaultTableModel(columns, 0);
 
-    // Buttons
-    public JButton startBtn = new JButton("Start Trip");
-    public JButton problemBtn = new JButton("Report Problem");
+    public JTable tripTable =
+            new JTable(model);
+
+    JScrollPane scroll =
+            new JScrollPane(tripTable);
 
     public Driver_view() {
 
-        frame.setSize(1200, 600);
+        frame.setSize(1200, 620);
+
         frame.setLayout(null);
+
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Title
-        title.setBounds(170, 10, 200, 30);
-        title.setFont(new Font("Arial", Font.BOLD, 18));
+        frame.setDefaultCloseOperation(
+                JFrame.EXIT_ON_CLOSE
+        );
 
-        // Bus
-        busLabel.setBounds(50, 60, 120, 25);
-        busValue.setBounds(200, 60, 200, 25);
+        // TITLE
+        title.setBounds(430, 20, 500, 40);
 
-        // Time
-        timeLabel.setBounds(50, 90, 120, 25);
-        timeValue.setBounds(200, 90, 200, 25);
+        title.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        28
+                )
+        );
 
-        // Destination
-        destLabel.setBounds(50, 120, 120, 25);
-        destValue.setBounds(200, 120, 200, 25);
+        // TABLE
+        scroll.setBounds(
+                40,
+                100,
+                1200,
+                500
+        );
 
-        // Animation
-        routeLabel.setBounds(120, 160, 300, 25);
-        routeLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        tripTable.setRowHeight(35);
 
-        // Buttons
-        startBtn.setBounds(80, 200, 150, 30);
-        problemBtn.setBounds(250, 200, 150, 30);
+        tripTable.setFont(
+                new Font(
+                        "Arial",
+                        Font.PLAIN,
+                        14
+                )
+        );
 
-        // Add components
+        tripTable.getTableHeader().setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        15
+                )
+        );
+
+        // ADD COMPONENTS
         frame.add(title);
 
-        frame.add(busLabel);
-        frame.add(busValue);
-
-        frame.add(timeLabel);
-        frame.add(timeValue);
-
-        frame.add(destLabel);
-        frame.add(destValue);
-
-        frame.add(routeLabel);
-
-        frame.add(startBtn);
-        frame.add(problemBtn);
+        frame.add(scroll);
 
         frame.setVisible(true);
-
-        // Actions
-        startBtn.addActionListener(e -> startAnimation());
-    }
-
-    // 🔥 Animation
-    private void startAnimation() {
-        new Thread(() -> {
-            String base = "Start ";
-            for (int i = 0; i < 10; i++) {
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException ignored) {}
-
-                base += "=";
-                routeLabel.setText(base + "=> " + destValue.getText());
-            }
-        }).start();
     }
 }

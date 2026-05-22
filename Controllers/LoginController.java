@@ -12,7 +12,6 @@ import java.sql.*;
 
 import javax.swing.JOptionPane;
 
-
 public class LoginController {
 
     private Login_view loginView;
@@ -35,16 +34,16 @@ public class LoginController {
 
         if (name.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(loginView.frame, "Please enter both name and password");
-            return ;
+            return;
         }
 
         switch (role) {
 
             case "Manager":
                 String sql = "SELECT * FROM Manager WHERE code = ? AND password = ?";
-                
-                try (Connection conn =  ManagerConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                try (Connection conn = ManagerConnection.getConnection();
+                        PreparedStatement ps = conn.prepareStatement(sql)) {
 
                     ps.setString(1, name);
                     ps.setString(2, password);
@@ -59,9 +58,9 @@ public class LoginController {
 
                     } else {
                         JOptionPane.showMessageDialog(loginView.frame, "Invalid manager credentials");
-                        return ;
+                        return;
                     }
-                    
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(loginView.frame, "Database error: " + e.getMessage());
@@ -70,9 +69,9 @@ public class LoginController {
                 break;
 
             case "Driver":
-                String sqlDriver = "SELECT * FROM drivers WHERE code = ? AND password = ?";
+                String sqlDriver = "SELECT * FROM Driver WHERE code = ? AND password = ?";
                 try (Connection conn = DriversConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sqlDriver)) {
+                        PreparedStatement ps = conn.prepareStatement(sqlDriver)) {
 
                     ps.setString(1, name);
                     ps.setString(2, password);
@@ -87,9 +86,9 @@ public class LoginController {
 
                     } else {
                         JOptionPane.showMessageDialog(loginView.frame, "Invalid driver credentials");
-                        return ;
+                        return;
                     }
-                    
+
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(loginView.frame, "Database error: " + e.getMessage());
                     return;
@@ -101,7 +100,7 @@ public class LoginController {
                 String sqlStudent = "SELECT * FROM Student WHERE matricule = ? AND password = ?";
 
                 try (Connection conn = StudentConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sqlStudent)) {
+                        PreparedStatement ps = conn.prepareStatement(sqlStudent)) {
 
                     ps.setString(1, name);
                     ps.setString(2, password);
@@ -116,9 +115,9 @@ public class LoginController {
 
                     } else {
                         JOptionPane.showMessageDialog(loginView.frame, "Invalid student credentials");
-                        return ;
+                        return;
                     }
-                    
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(loginView.frame, "Database error: " + e.getMessage());

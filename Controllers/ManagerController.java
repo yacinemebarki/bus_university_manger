@@ -39,12 +39,11 @@ public class ManagerController {
 
         managerView.logoutBtn.addActionListener(e -> logout());
 
-        managerView.menu.busBtn.addActionListener(e->goToBus());
-        managerView.menu.lineBtn.addActionListener(e->goToLine());
-        managerView.menu.problemBtn.addActionListener(e->gotToproblem());
-    
-    }
+        managerView.menu.busBtn.addActionListener(e -> goToBus());
+        managerView.menu.lineBtn.addActionListener(e -> goToLine());
+        managerView.menu.problemBtn.addActionListener(e -> gotToproblem());
 
+    }
 
     // ADD and REMOVE STUDENT ##########################
     public void addStudent() {
@@ -53,13 +52,13 @@ public class ManagerController {
         Student student = new Student();
 
         try (Connection conn = StudentConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             student.setfullname(managerView.nameField.getText());
             student.setmatricule(managerView.codeField.getText());
             student.setpassword(new String(managerView.passField.getPassword()));
 
-            if(!allModels.validateMember(student)) {
+            if (!allModels.validateMember(student)) {
                 JOptionPane.showMessageDialog(managerView.frame, "Please fill in all student fields");
                 return;
             }
@@ -79,11 +78,12 @@ public class ManagerController {
             e.printStackTrace();
         }
     }
+
     public void removeStudent() {
         String sql = "DELETE FROM Student WHERE matricule = ?;";
 
         try (Connection conn = StudentConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, managerView.codeField.getText());
 
@@ -99,7 +99,6 @@ public class ManagerController {
             e.printStackTrace();
         }
     }
-    
 
     // ADD and REMOVE DRIVER ##########################
     public void addDriver() {
@@ -107,38 +106,50 @@ public class ManagerController {
 
         Driver driver = new Driver();
 
-        try (Connection conn = DriversConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
-
+        try (Connection conn = DriversConnection.getConnection()) {
             driver.setfullname(managerView.nameField.getText());
             driver.setCode(managerView.codeField.getText());
             driver.setpassword(new String(managerView.passField.getPassword()));
 
-            if(!allModels.validateMember(driver)) {
+            if (!allModels.validateMember(driver)) {
                 JOptionPane.showMessageDialog(managerView.frame, "Please fill in all driver fields");
                 return;
             }
 
-            ps.setString(1, driver.getfull_name());
-            ps.setString(2, driver.getCode());
-            ps.setString(3, driver.getpassword());
+            String checkSql = "SELECT COUNT(*) FROM Driver WHERE code = ?";
+            try (PreparedStatement checkPs = conn.prepareStatement(checkSql)) {
+                checkPs.setString(1, driver.getCode());
+                try (ResultSet rs = checkPs.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) > 0) {
+                        JOptionPane.showMessageDialog(managerView.frame, "A driver with this code already exists.");
+                        return;
+                    }
+                }
+            }
 
-            int r = ps.executeUpdate();
-            if (r > 0) {
-                JOptionPane.showMessageDialog(managerView.frame, "Driver added successfully");
-            } else {
-                JOptionPane.showMessageDialog(managerView.frame, "Failed to add driver");
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, driver.getfull_name());
+                ps.setString(2, driver.getCode());
+                ps.setString(3, driver.getpassword());
+
+                int r = ps.executeUpdate();
+                if (r > 0) {
+                    JOptionPane.showMessageDialog(managerView.frame, "Driver added successfully");
+                } else {
+                    JOptionPane.showMessageDialog(managerView.frame, "Failed to add driver");
+                }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public void removeDriver() {
         String sql = "DELETE FROM Driver WHERE code = ?;";
 
         try (Connection conn = DriversConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, managerView.codeField.getText());
 
@@ -155,30 +166,29 @@ public class ManagerController {
         }
     }
 
-
     // Lines and Buses management can be added here in the future
-
-    
-
 
     // LOGOUT ##########################
     public void logout() {
         new LoginController(new Views.Login_view());
         managerView.frame.setVisible(false);
-        
+
     }
-    //to change pages
-    public void goToBus(){
+
+    // to change pages
+    public void goToBus() {
         new BusController(new bus_view());
         managerView.frame.setVisible(false);
-        
+
     }
-    public void goToLine(){
+
+    public void goToLine() {
         new LineDashboardController(new Trip_view());
         managerView.frame.setVisible(false);
-        
+
     }
-    public void gotToproblem(){
+
+    public void gotToproblem() {
         new ProblemDashboardController(new ProblemDashboard());
         managerView.frame.setVisible(false);
     }
